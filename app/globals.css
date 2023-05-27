@@ -15,6 +15,135 @@
 		margin: 0;
 		padding: 0;
 		overflow: hidden;
-		background-color: white;
+		font-family: "Sharp Grotesk", sans-serif;
+		background: #000000;
+	}
+
+	.fit-content {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1280px;
+		width: 90%;
+	}
+	
+	@font-face {
+		font-family: "Sharp Grotesk";
+		font-style: normal;
+		font-weight: 400;
+		font-stretch: normal;
+		src: url("../public/fonts/SharpGroteskBook20-Regular.woff2") format("woff2");
+		font-display: auto;
+	}
+	
+	@font-face {
+		font-family: "Sharp Grotesk";
+		font-style: normal;
+		font-weight: 700;
+		font-stretch: normal;
+		src: url("../public/fonts/SharpGroteskMedium20-Regular.woff2") format("woff2");
+		font-display: auto;
+	}
+	
+	@font-face {
+		font-family: "Sharp Grotesk";
+		font-style: italic;
+		font-weight: 400;
+		font-stretch: normal;
+		src: url("../public/fonts/SharpGroteskBookItalic20-Regular.woff2") format("woff2");
+		font-display: auto;
+	}
+	
+	@font-face {
+		font-family: "Sharp Grotesk";
+		font-style: normal;
+		font-weight: 400;
+		font-stretch: expanded;
+		src: url("../public/fonts/SharpGroteskBook25-Regular.woff2") format("woff2");
+		font-display: auto;
+	}
+	
+	@font-face {
+		font-family: "Sharp Grotesk";
+		font-style: normal;
+		font-weight: 700;
+		font-stretch: expanded;
+		src: url("../public/fonts/SharpGroteskMedium25-Regular.woff2") format("woff2");
+		font-display: auto;
+	}
+	
+	@font-face {
+		font-family: "Sharp Grotesk";
+		font-style: italic;
+		font-weight: 700;
+		font-stretch: expanded;
+		src: url("../public/fonts/SharpGroteskMediumItalic20-Regular.woff2") format("woff2");
+		font-display: auto;
 	}
 }
+
+/* HEADER */
+header {
+	backdrop-filter: blur(0.75rem) brightness(80%);
+	border: 0.05rem solid rgba(255, 255, 255, 0.15);
+	animation: reveal 2s ease-in-out;
+}
+
+header h1 {
+	font-family: "Sharp Grotesk";
+	font-weight: 700;
+	font-stretch: expanded;
+}
+
+header a:hover {
+	box-shadow: 0px 0px 50px 4px rgba(212, 212, 212, 0.8);
+	background-color: rgba(212, 212, 212, 0.2);
+	transition: all 150ms ease-out;
+}
+
+header a {
+	transition: all 300ms ease-in;
+}
+
+@keyframes reveal {
+	0% {
+		opacity: 0;
+		transform: translateY(-2rem);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* TEXT REVEAL */
+.text-reveal-frontpage {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+}
+
+.text-reveal-frontpage h2 {
+	font-stretch: expanded;
+	font-weight: 700;
+}
+
+.text-reveal-frontpage h2 span {
+	display: inline-block;
+	opacity: 0;
+	transform: translateX(-100%);
+}
+
+.text-reveal-frontpage h2 span:nth-child(1) {
+	animation: reveal 1s ease-in-out 0.5s forwards;
+}
+
+.text-reveal-frontpage h2 span:nth-child(2) {
+	animation: reveal 1s ease-in-out 1s forwards;
+}
+
+.text-reveal-frontpage h2 span:nth-child(3) {
+	animation: reveal 1s ease-in-out 1.5s forwards;
+}
+

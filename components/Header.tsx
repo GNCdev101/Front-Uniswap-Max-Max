@@ -6,7 +6,7 @@ export default function Header() {
 		<header className="mt-8 fixed z-10 fit-content flex flex-row justify-between items-center px-6 py-4 rounded-full text-neutral-300">
 			<div>
 				<Link href="/">
-					<h1 className="font-bold text-lg">Uniswap Max</h1>
+					<span className="font-bold text-lg">Uniswap Max</span>
 				</Link>
 			</div>
 			<nav>

@@ -1,11 +1,15 @@
 export default function TextReveal() {
 	return (
-		<div className="text-reveal-frontpage w-full text-center text-neutral-300 text-6xl">
-			<h2 className="flex flex-col gap-10">
-				<span>Modern Trading Tools</span>
-				<span>on Top of</span>
-				<span>Uniswap</span>
-			</h2>
+		<div className="text-reveal-frontpage w-full flex justify-center text-neutral-300 text-6xl">
+			<h1 className="leading-relaxed whitespace-pre text-center">
+				<span className="box-container">Modern</span><br />
+				<span>Trading&#32;&#32;</span>
+				<span className="box-container">🛠</span>
+				<span>&#32;&#32;Tools</span><br />
+				<span>on Top of</span><br />
+				<span className="box-container">🦄</span>
+				<span>&#32;Uniswap</span>
+			</h1>
 		</div>
 	);
 }

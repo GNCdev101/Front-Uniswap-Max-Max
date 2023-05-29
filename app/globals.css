@@ -124,26 +124,38 @@ header a {
 	overflow: hidden;
 }
 
-.text-reveal-frontpage h2 {
+.text-reveal-frontpage h1 {
 	font-stretch: expanded;
 	font-weight: 700;
 }
 
-.text-reveal-frontpage h2 span {
+.text-reveal-frontpage h1 > span {
 	display: inline-block;
 	opacity: 0;
 	transform: translateX(-100%);
 }
 
-.text-reveal-frontpage h2 span:nth-child(1) {
+.text-reveal-frontpage h1 > span:nth-child(1) {
 	animation: reveal 1s ease-in-out 0.5s forwards;
 }
 
-.text-reveal-frontpage h2 span:nth-child(2) {
+.text-reveal-frontpage h1 > span:nth-child(3),
+.text-reveal-frontpage h1 > span:nth-child(4),
+.text-reveal-frontpage h1 > span:nth-child(5) {
 	animation: reveal 1s ease-in-out 1s forwards;
 }
 
-.text-reveal-frontpage h2 span:nth-child(3) {
+.text-reveal-frontpage h1 > span:nth-child(7) {
 	animation: reveal 1s ease-in-out 1.5s forwards;
 }
 
+.text-reveal-frontpage h1 > span:nth-child(9),
+.text-reveal-frontpage h1 > span:nth-child(10) {
+	animation: reveal 1s ease-in-out 2s forwards;
+}
+
+.box-container {
+	display: inline-flex;
+	backdrop-filter: blur(0.5rem);
+	@apply border-2 border-neutral-300 px-6 rounded-full leading-snug;
+}

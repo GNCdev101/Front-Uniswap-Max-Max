@@ -16,6 +16,32 @@ export default function Home() {
 		return () => clearTimeout(timeout);
 	}, []);
 
+	React.useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add("introduction-reveal");
+					}
+				});
+			},
+			{
+				root: null,
+				rootMargin: "0px",
+				threshold: 0.8,
+			},
+		);
+		observer.observe(document.getElementById("introduction")!);
+	}, []);
+
+	const features: string[] = [
+		"⛔️ Stop Loss",
+		"🎯 Limit Orders",
+		"💰 Margin Trading",
+		"🔁 Leverage",
+		"⬇️ Shorting Options",
+	];
+
 	return (
 		<div className="w-screen h-full">
 			<GradientCanvas>
@@ -25,27 +51,43 @@ export default function Home() {
 				<div className="flex justify-center items-center h-screen">
 					<TextReveal />
 				</div>
-				<div className="fit-content h-screen pt-32">
-					<div className="flex flex-col justify-center items-center text-center gap-4">
-						<h2 className="text-neutral-300 text-5xl leading-relaxed" style={{fontStretch: "expanded"}}>
+				{/* INTRODUCTION */}
+				<div className="fit-content h-screen pt-32 pb-16 flex flex-col justify-between" id="introduction">
+					<div className="front-page-introduction-title opacity-0 flex flex-col justify-center items-center text-center gap-4">
+						<h2 className="text-neutral-300 text-5xl leading-relaxed" style={{ fontStretch: "expanded" }}>
 							Introducing Uniswap Max
 						</h2>
-						<p className="text-neutral-400 text-3xl leading-snug">A Decentralized Trading Platform<br /> Built on Top of Uniswap!</p>
+						<p className="text-neutral-400 text-3xl leading-snug">
+							A Decentralized Trading Platform
+							<br /> Built on Top of Uniswap!
+						</p>
 					</div>
-					{/* <div className="front-page-introduction rounded-3xl p-8 flex flex-col gap-4 text-4xl text-neutral-300 leading-loose">
-						<p>
-							Introducing Uniswap Max, a decentralized trading platform built on top of Uniswap!
-						</p>
-						<p>
-							Uniswap Max is the next generation of decentralize trading tools. We've built it to be as easy-to-use as possible, so even if you're new to crypto trading, we'll have your back.
-						</p>
-						<p>
-							Our features include: stop loss, limit orders and margin trading—so you can set your own rules for each trade. We also offer leverage and shorting options, which give you the opportunity to earn bigger profits (or lose more money).
-						</p>
-						<p>
-							Even if you're not a trader, you can still unlock the power of Uniswap Max by becoming a liquidity provider to margin traders and earning a competitive APY.
-						</p>
-					</div> */}
+					<div className="flex justify-center">
+						<article className="front-page-introduction-text opacity-0 max-w-prose rounded-3xl p-8 flex flex-col gap-4">
+							<p className="text-neutral-300 text-xl leading-relaxed text-center">
+								Uniswap Max is the next generation of decentralize trading tools. We’ve built it to be
+								as easy-to-use as possible, so even if you’re new to crypto trading, we’ll have your
+								back.
+							</p>
+							<p className="text-neutral-300 text-xl leading-relaxed text-center">
+								Our features include:
+							</p>
+						</article>
+					</div>
+					<ul className="flex flex-row gap-4 justify-between">
+						{features.map((value, index) => {
+							return (
+								<li key={index} className={`box-container opacity-0 front-page-introduction-feature-${index}`}>
+									<span
+										className="py-4 text-neutral-300 font-bold"
+										style={{ fontStretch: "expanded" }}
+									>
+										{value}
+									</span>
+								</li>
+							);
+						})}
+					</ul>
 				</div>
 			</div>
 		</div>

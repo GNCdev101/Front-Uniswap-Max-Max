@@ -34,12 +34,12 @@ export default function Home() {
 		observer.observe(document.getElementById("introduction")!);
 	}, []);
 
-	const features: string[] = [
-		"⛔️ Stop Loss",
-		"🎯 Limit Orders",
-		"💰 Margin Trading",
-		"🔁 Leverage",
-		"⬇️ Shorting Options",
+	const features: [emoji: string, feature: string][] = [
+		["⛔️", "Stop Loss"],
+		["🎯", "Limit Orders"],
+		["💰", "Margin Trading"],
+		["🔁", "Leverage"],
+		["⬇️", "Shorting Options"],
 	];
 
 	return (
@@ -78,12 +78,13 @@ export default function Home() {
 						{features.map((value, index) => {
 							return (
 								<li key={index} className={`box-container opacity-0 front-page-introduction-feature-${index}`}>
-									<span
-										className="py-4 text-neutral-300 font-bold"
+									<div
+										className="py-4 text-neutral-300 font-bold flex flex-row gap-2"
 										style={{ fontStretch: "expanded" }}
 									>
-										{value}
-									</span>
+										<span>{value[0]}</span>
+										<span>{value[1]}</span>
+									</div>
 								</li>
 							);
 						})}

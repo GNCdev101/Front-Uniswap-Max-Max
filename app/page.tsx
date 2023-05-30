@@ -45,7 +45,7 @@ export default function Home() {
 	return (
 		<div className="w-screen h-full">
 			<GradientCanvas>
-				<Gradient type={type} color1="#8903ff" color2="#712b31" color3="#350062" uSpeed={0.1} cDistance={4} />
+				<Gradient type={type} color1="#8903ff" color2="#712b31" color3="#350062" grain="off" uSpeed={0.1} cDistance={4} />
 				{/* <Gradient
 					control="query"
           			// @ts-ignore

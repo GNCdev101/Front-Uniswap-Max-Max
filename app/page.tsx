@@ -36,10 +36,10 @@ export default function Home() {
 
 	const features: [emoji: string, feature: string][] = [
 		["⛔️", "Stop Loss"],
-		["🎯", "Limit Orders"],
+		["🎯", "Limit Order"],
 		["💰", "Margin Trading"],
 		["🔁", "Leverage"],
-		["⬇️", "Shorting Options"],
+		["⬇️", "Short Selling"],
 	];
 
 	return (

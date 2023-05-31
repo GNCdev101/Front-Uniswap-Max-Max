@@ -9,12 +9,12 @@ export default function Home() {
 	type GradientType = "sphere" | "waterPlane" | "plane";
 	const [type, setType] = React.useState("sphere" as GradientType);
 
-	React.useEffect(() => {
-		const timeout = setTimeout(() => {
-			setType("waterPlane");
-		}, 3000);
-		return () => clearTimeout(timeout);
-	}, []);
+	// React.useEffect(() => {
+	// 	const timeout = setTimeout(() => {
+	// 		setType("waterPlane");
+	// 	}, 3000);
+	// 	return () => clearTimeout(timeout);
+	// }, []);
 
 	React.useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -22,6 +22,7 @@ export default function Home() {
 				entries.forEach((entry) => {
 					if (entry.isIntersecting) {
 						entry.target.classList.add("introduction-reveal");
+						setType("waterPlane");
 					}
 				});
 			},
@@ -45,7 +46,7 @@ export default function Home() {
 	return (
 		<div className="w-screen h-full">
 			<GradientCanvas>
-				<Gradient type={type} color1="#8903ff" color2="#712b31" color3="#350062" grain="off" uSpeed={0.1} cDistance={4} />
+				<Gradient type={type} color1="#D61C4E" color2="#5800FF" color3="#000000" grain="off" uSpeed={0.1} cDistance={4} />
 				{/* <Gradient
 					control="query"
           			// @ts-ignore

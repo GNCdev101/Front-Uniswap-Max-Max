@@ -6,9 +6,9 @@ export default function Header() {
 	return (
 		<header className="md:mt-8 mt-4 fixed z-10 fit-content flex flex-row justify-between items-center px-6 py-2 rounded-full text-neutral-300">
 			<div>
-				<Link href="/" className="flex flex-row gap-2 items-center">
+				<Link href="/" className="flex flex-row md:gap-2 gap-1 items-center">
 					<Logo />
-					<span className="font-bold md:text-lg">Uniswap Max</span>
+					<span className="font-bold md:text-lg text-sm">Uniswap Max</span>
 				</Link>
 			</div>
 			<nav className="md:block hidden">

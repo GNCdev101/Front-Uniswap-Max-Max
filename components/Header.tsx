@@ -8,11 +8,11 @@ export default function Header() {
 			<div>
 				<Link href="/" className="flex flex-row gap-2 items-center">
 					<Logo />
-					<span className="font-bold text-lg">Uniswap Max</span>
+					<span className="font-bold md:text-lg">Uniswap Max</span>
 				</Link>
 			</div>
-			<nav>
-				<ul className="flex flex-row gap-12 text-sm tracking-wider">
+			<nav className="md:block hidden">
+				<ul className="flex flex-row md:gap-12 gap-4 md:text-sm text-xs tracking-wider">
 					<li>
 						<Link href="/dashboard">Dashboard</Link>
 					</li>
@@ -24,8 +24,15 @@ export default function Header() {
 					</li>
 				</ul>
 			</nav>
-			<div>
+			<div className="md:block hidden">
 				<ConnectButton />
+			</div>
+			<div className="md:hidden block">
+				<button className="flex items-center hover:opacity-50 transition-all">
+					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-12" fill="none" viewBox="6 0 24 20" stroke="currentColor">
+						<path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" d="M4 6h28M4 12h28M4" />
+					</svg>
+				</button>
 			</div>
 		</header>
 	);

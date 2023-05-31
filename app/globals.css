@@ -189,6 +189,7 @@ header svg {
 /* TEXT REVEAL */
 .text-reveal-frontpage {
 	margin-block: auto;
+	font-size: clamp(1.5rem, 3vw + 1rem, 6rem);
 }
 
 .text-reveal-frontpage h1 {
@@ -224,5 +225,9 @@ header svg {
 .box-container {
 	display: inline-flex;
 	backdrop-filter: blur(0.5rem) brightness(80%);
-	@apply border-2 border-neutral-300 px-6 rounded-full leading-snug;
+	@apply border-2 border-neutral-300 md:px-6 px-4 rounded-full md:leading-snug leading-relaxed;
+}
+
+.introduction-container {
+	gap: clamp(1.5rem, 2vh + 1rem, 3rem);
 }

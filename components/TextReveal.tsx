@@ -1,7 +1,7 @@
 export default function TextReveal() {
 	return (
-		<div className="text-reveal-frontpage w-full flex justify-center text-neutral-300 text-6xl">
-			<h1 className="leading-relaxed whitespace-pre text-center">
+		<div className="text-reveal-frontpage w-full flex justify-center text-neutral-300">
+			<h1 className="md:leading-relaxed leading-loose whitespace-pre text-center">
 				<span className="box-container">Modern</span><br />
 				<span>Trading&#32;&#32;</span>
 				<span className="box-container">🛠</span>

@@ -51,7 +51,7 @@ export default function Home() {
 				</div>
 				{/* INTRODUCTION */}
 				<div className="fit-content flex items-center justify-center h-screen" id="introduction">
-					<div className="flex flex-col introduction-container">
+					<div className="flex flex-col introduction-container md:mt-0 mt-8">
 						<div className="front-page-introduction-title opacity-0 flex flex-col justify-center items-center text-center gap-6">
 							<h2 className="text-neutral-300 lg:text-5xl md:text-3xl text-xl leading-relaxed" style={{ fontStretch: "expanded" }}>
 								Introducing Uniswap Max

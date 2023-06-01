@@ -124,7 +124,7 @@ header a {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	max-height: 100dvh;
+	max-height: 100svh;
 	width: 100vw;
 	overflow-y: scroll;
 	scroll-snap-type: y mandatory;
@@ -258,5 +258,5 @@ footer {
 
 /* UTILS */
 .h-true-screen {
-	height: 100dvh;
+	height: 100svh;
 }

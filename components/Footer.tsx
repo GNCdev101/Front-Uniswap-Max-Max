@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Logo from "./Logo";
-import ConnectButton from "./ConnectButton";
+import Button from "./Button";
 import Arrow from "./Arrow";
 
 export default function Footer() {
@@ -37,7 +37,7 @@ export default function Footer() {
 						</ul>
 					</div>
 					<div className="md:w-auto md:block md:justify-normal w-full flex justify-center">
-						<ConnectButton size="lg" style="ghost" />
+						<Button type="button" size="lg" style="ghost">Connect Wallet</Button>
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ConnectButton from "./ConnectButton";
+import Button from "./Button";
 import Logo from "./Logo";
 
 export default function Header() {
@@ -25,7 +25,7 @@ export default function Header() {
 				</ul>
 			</nav>
 			<div className="md:block hidden">
-				<ConnectButton size="xs" style="solid" />
+				<Button type="button" size="xs" style="solid">Connect Wallet</Button>
 			</div>
 			<div className="md:hidden block">
 				<button className="flex items-center hover:opacity-50 transition-all">

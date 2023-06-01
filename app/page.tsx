@@ -5,6 +5,7 @@ import { Gradient } from "shadergradient";
 import React from "react";
 import TextReveal from "@/components/TextReveal";
 import Footer from "@/components/Footer";
+import Button from "@/components/Button";
 
 export default function Home() {
 	type GradientType = "sphere" | "waterPlane" | "plane";
@@ -106,9 +107,9 @@ export default function Home() {
 									be as easy-to-use as possible, so even if you’re new to crypto trading, we’ll have
 									your back.
 								</p>
-								<p className="text-neutral-300 lg:text-xl md:text-md text-sm text-center">
-									Our features include:
-								</p>
+								<div className="flex justify-center items-center">
+									<Button type="link" to="/trade" style="solid" size="md">Trade</Button>
+								</div>
 							</article>
 						</div>
 						<ul className="lg:flex lg:flex-row md:gap-4 gap-4 justify-between grid grid-cols-2 grid-rows-3">
@@ -153,6 +154,9 @@ export default function Home() {
 									Even if you’re not a trader, you can still unlock the power of Uniswap Max by
 									becoming a liquidity provider to margin traders and earning a competitive APY.
 								</p>
+								<div className="flex items-center justify-center">
+									<Button type="link" to="/earn" style="solid" size="md">Earn</Button>
+								</div>
 							</article>
 							<div className="grid grid-flow-col-dense gap-4">
 								<article

@@ -124,7 +124,7 @@ header a {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	max-height: 100vh;
+	max-height: 100dvh;
 	width: 100vw;
 	overflow-y: scroll;
 	scroll-snap-type: y mandatory;
@@ -254,4 +254,9 @@ footer {
 	border-top-right-radius: 2rem;
 	backdrop-filter: blur(0.75rem) brightness(70%);
 	background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+/* UTILS */
+.h-true-screen {
+	height: 100dvh;
 }

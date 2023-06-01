@@ -135,22 +135,11 @@ header svg {
 	scroll-snap-align: start;
 }
 
-/* .front-page-introduction-text,
-.introduction-reveal .front-page-introduction-feature-0,
-.introduction-reveal .front-page-introduction-feature-1,
-.introduction-reveal .front-page-introduction-feature-2,
-.introduction-reveal .front-page-introduction-feature-3,
-.introduction-reveal .front-page-introduction-feature-4,
-.introduction-reveal .front-page-introduction-feature-5 {
-	opacity: 0;
-	transform: translateY(-2rem);
-} */
-
 .introduction-reveal .front-page-introduction-title {
 	animation: reveal 1s ease-in-out 0.5s forwards;
 }
 
-.introduction-reveal .front-page-introduction-text {
+.introduction-reveal .glass-container {
 	animation: reveal 1s ease-in-out 1s forwards;
 }
 
@@ -178,7 +167,7 @@ header svg {
 	animation: reveal 1s ease-in-out 2.75s forwards;
 }
 
-.front-page-introduction-text {
+.glass-container {
 	opacity: 0;
 	transform: translateY(-2rem);
 	border: 0.05rem solid rgba(255, 255, 255, 0.15);
@@ -228,6 +217,24 @@ header svg {
 	@apply border-2 border-neutral-300 md:px-6 px-4 rounded-full md:leading-snug leading-relaxed;
 }
 
-.introduction-container {
-	gap: clamp(1.5rem, 2vh + 1rem, 3rem);
+.introduction-container,
+.empowering-neophytes-container {
+	gap: clamp(1.5rem, 3vh + 1rem, 4.5rem);
+}
+
+/* EMPOWERING NEOPHYTES */
+.empowering-neophytes-reveal .empowering-neophytes-title {
+	animation: reveal 1s ease-in-out 0s forwards;
+}
+
+.empowering-neophytes-reveal #empowering-neophytes-text {
+	animation: reveal 1s ease-in-out 0.5s forwards;
+}
+
+.empowering-neophytes-reveal #TVT {
+	animation: reveal 1s ease-in-out 1.0s forwards;
+}
+
+.empowering-neophytes-reveal #TVL {
+	animation: reveal 1s ease-in-out 1.5s forwards;
 }

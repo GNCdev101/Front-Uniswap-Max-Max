@@ -4,6 +4,7 @@ import { GradientCanvas } from "shadergradient";
 import { Gradient } from "shadergradient";
 import React from "react";
 import TextReveal from "@/components/TextReveal";
+import Footer from "@/components/Footer";
 
 export default function Home() {
 	type GradientType = "sphere" | "waterPlane" | "plane";
@@ -13,11 +14,14 @@ export default function Home() {
 			(entries) => {
 				entries.forEach((entry) => {
 					if (entry.isIntersecting) {
-						setType("waterPlane");
 						if (entry.target.id === "introduction") {
+							setType("waterPlane");
 							entry.target.classList.add("introduction-reveal");
 						} else if (entry.target.id === "empowering-neophytes") {
+							setType("waterPlane");
 							entry.target.classList.add("empowering-neophytes-reveal");
+						} else if (entry.target.tagName === "FOOTER") {
+							setType("sphere");
 						}
 					}
 				});
@@ -30,6 +34,7 @@ export default function Home() {
 		);
 		observer.observe(document.getElementById("introduction")!);
 		observer.observe(document.getElementById("empowering-neophytes")!);
+		observer.observe(document.getElementsByTagName("footer")[0]!);
 	}, []);
 
 	const features: [emoji: string, feature: string][] = [
@@ -120,7 +125,7 @@ export default function Home() {
 								Empowering Neophytes<br /> in the World of<br /> Decentralized Trading!
 							</h2>
 						</div>
-						<div className="flex flex-col gap-4 max-w-prose">
+						<div className="flex flex-col self-center gap-4 max-w-prose">
 							<article className="glass-container rounded-3xl md:p-8 p-4 flex flex-col gap-4" id="empowering-neophytes-text">
 								<p className="text-neutral-300 lg:text-xl md:text-md text-sm text-center">
 									Even if you’re not a trader, you can still unlock the power of Uniswap Max by becoming a liquidity provider to margin traders and earning a competitive APY. 
@@ -142,6 +147,10 @@ export default function Home() {
 							</div>
 						</div>
 					</div>
+				</div>
+				{/* FOURTH PAGE/FOOTER */}
+				<div className="flex items-end h-screen">
+					<Footer />
 				</div>
 			</div>
 		</div>

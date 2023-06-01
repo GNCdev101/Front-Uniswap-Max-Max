@@ -5,7 +5,7 @@ export default function Logo() {
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 755.000000 768.000000"
 			preserveAspectRatio="xMidYMid meet"
-			className="md:w-11 md:h-11 w-8 h-8"
+			className="logo md:w-11 md:h-11 w-8 h-8"
 		>
 			<defs>
 				<linearGradient id="GradientLogo">

@@ -25,12 +25,12 @@ export default function Header() {
 				</ul>
 			</nav>
 			<div className="md:block hidden">
-				<ConnectButton />
+				<ConnectButton size="xs" style="solid" />
 			</div>
 			<div className="md:hidden block">
 				<button className="flex items-center hover:opacity-50 transition-all">
 					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-12" fill="none" viewBox="6 0 24 20" stroke="currentColor">
-						<path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" d="M4 6h28M4 12h28M4" />
+						<path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="1" d="M4 6h28M4 12h28M4" />
 					</svg>
 				</button>
 			</div>

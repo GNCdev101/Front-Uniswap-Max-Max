@@ -1,34 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Frontend Uniswap Max
 
-## Getting Started
-
-First, run the development server:
+## Quick start
 
 ```bash
-npm run dev
-# or
+yarn
 yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# setup local test network
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Need to be done only once
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+=> On metamask :
 
-## Learn More
+-   Create a new account using this Private Key : _0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80_
+-   Setup a new network with : (Add Network)
+    -   Network name : Anvil
+    -   New RPC URL : http://127.0.0.1:8545
+    -   Chain ID : 1
+    -   Currency symbol : ETHA
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+git https://github.com/Los-Byzantinos/Uniswap-Max
+cd Uniswap-Max
+make # This installs the project's dependencies.
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Fill **ETH_RPC_URL** in `.env` (get it on [alchemy](https://www.alchemy.com/))
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Need to be done every time
 
-## Deploy on Vercel
+=> In the contracts repository :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```sh
+make anvil
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Open an other terminal and :
+
+```sh
+make deploy-anvil
+```
+
+Copy the **Market** address from `./broadcast/Deployments.s.sol/1/run-latest.json`
+
+=> Get back to the front repo and paste it in `helper-config.js`
+
+```sh
+yarn dev
+```
+
+Clear cache in metamask :
+
+-   On Extension, click the account icon in the top-right corner. On Mobile, tap the hamburger icon in the top left to open the main menu.
+-   Select Settings.
+-   Select Advanced.
+-   Scroll down and **Clear activity and nonce data**
+
+You can dev !

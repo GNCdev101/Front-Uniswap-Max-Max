@@ -63,7 +63,7 @@ export default function Home() {
 	}, [TVL, TVT]);
 
 	return (
-		<div className="w-screen h-true-screen">
+		<div className="w-screen" style={{ height: "100dvh" }}>
 			<GradientCanvas>
 				<Gradient
 					type={type}

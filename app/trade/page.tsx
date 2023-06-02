@@ -10,7 +10,7 @@ function tradePage() {
 		<div className="w-screen">
 			<div className="front-page-content text-white">
 				<TradingViewWidget />
-				<OpenPostionForm asset="ETH" address="0x123" apy={10} volume={1000} useRate={20} />
+				<OpenPostionForm />
 
 				<div className="mt-12">Your positions:</div>
 				{mockId.map((pool, index) => (

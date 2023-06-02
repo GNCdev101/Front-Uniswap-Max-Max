@@ -10,15 +10,7 @@ import "rc-slider/assets/index.css";
 
 import Slider from "rc-slider";
 
-interface OpenPostionFormProps {
-	asset: string;
-	address: string;
-	apy: number;
-	volume: number;
-	useRate: number;
-}
-
-function OpenPostionForm(props: OpenPostionFormProps) {
+function OpenPostionForm() {
 	const [addPool, setAddPool] = useState("");
 	const [addTokenToTrade, setAddTokenToTrade] = useState("");
 	const [isShort, setIsShort] = useState(false);

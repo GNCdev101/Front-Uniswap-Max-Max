@@ -7,12 +7,12 @@ export default function Logo() {
 			preserveAspectRatio="xMidYMid meet"
 			className="logo md:w-11 md:h-11 w-8 h-8"
 		>
-			<defs>
+			{/* <defs>
 				<linearGradient id="GradientLogo">
 					<stop offset="0%" stopColor="#4942E4" />
 					<stop offset="100%" stopColor="#CD1818" />
 				</linearGradient>
-			</defs>
+			</defs> */}
 			<g transform="translate(0.000000,768.000000) scale(0.100000,-0.100000)" stroke="none">
 				<path
 					d="M1588 7298 c-26 -21 -41 -94 -33 -168 14 -134 72 -292 152 -414 l47

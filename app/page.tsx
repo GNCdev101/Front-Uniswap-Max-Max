@@ -86,8 +86,8 @@ export default function Home() {
 					<TextReveal />
 				</div>
 				{/* SECOND PAGE */}
-				<div className="fit-content flex items-center justify-center h-true-screen" id="introduction">
-					<div className="introduction-container flex flex-col md:mt-0 mt-8">
+				<div className="fit-content flex justify-center h-true-screen" id="introduction">
+					<div className="introduction-container flex flex-col md:mt-32 mt-24">
 						<div className="front-page-introduction-title opacity-0 flex flex-col justify-center items-center text-center gap-6">
 							<h2
 								className="text-neutral-300 lg:text-5xl md:text-3xl text-xl"
@@ -133,8 +133,8 @@ export default function Home() {
 					</div>
 				</div>
 				{/* THIRD PAGE */}
-				<div className="fit-content flex items-center justify-center h-true-screen" id="empowering-neophytes">
-					<div className="empowering-neophytes-container flex flex-col gap-8 mt-8">
+				<div className="fit-content flex justify-center h-true-screen" id="empowering-neophytes">
+					<div className="empowering-neophytes-container flex flex-col gap-8 md:mt-32 mt-24">
 						<div className="empowering-neophytes-title opacity-0 flex flex-col justify-center items-center text-center gap-6">
 							<h2
 								className="text-neutral-300 lg:text-5xl md:text-3xl text-xl"
@@ -158,7 +158,7 @@ export default function Home() {
 									<Button type="link" to="/earn" style="solid" size="md">Earn</Button>
 								</div>
 							</article>
-							<div className="grid grid-flow-col-dense gap-4">
+							<div className="grid grid-cols-2 gap-4">
 								<article
 									className="glass-container flex flex-col gap-2 rounded-3xl md:p-8 p-4"
 									id="TVT"

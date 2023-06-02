@@ -6,6 +6,7 @@ import React from "react";
 import TextReveal from "@/components/TextReveal";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import { uiConfig } from "../helper-config.js";
 
 export default function Home() {
 	type GradientType = "sphere" | "waterPlane" | "plane";
@@ -51,16 +52,16 @@ export default function Home() {
 	React.useEffect(() => {
 		const interval = setInterval(() => {
 			if (document.getElementById("empowering-neophytes")!.classList.contains("empowering-neophytes-reveal")) {
-				if (TVL < 5.18) {
+				if (TVL < uiConfig.TVL) {
 					setTVL(Number((TVL + 0.01).toLocaleString("en-US", { minimumFractionDigits: 2 })));
 				}
-				if (TVT < 1.77) {
+				if (TVT < uiConfig.TVT) {
 					setTVT(Number((TVL + 0.01).toLocaleString("en-US", { minimumFractionDigits: 2 })));
 				}
 			}
 		}, 10);
 		return () => clearInterval(interval);
-	}, [TVL, TVT]);
+	}, [TVT, TVL]);
 
 	return (
 		<div className="w-screen" style={{ height: "100lvh" }}>
@@ -108,7 +109,9 @@ export default function Home() {
 									your back.
 								</p>
 								<div className="flex justify-center items-center">
-									<Button type="link" to="/trade" style="solid" size="md">Trade</Button>
+									<Button type="link" to="/trade" style="solid" size="md">
+										Trade
+									</Button>
 								</div>
 							</article>
 						</div>
@@ -155,7 +158,9 @@ export default function Home() {
 									becoming a liquidity provider to margin traders and earning a competitive APY.
 								</p>
 								<div className="flex items-center justify-center">
-									<Button type="link" to="/earn" style="solid" size="md">Earn</Button>
+									<Button type="link" to="/earn" style="solid" size="md">
+										Earn
+									</Button>
 								</div>
 							</article>
 							<div className="grid grid-cols-2 gap-4">

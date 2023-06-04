@@ -81,13 +81,13 @@ export default function Home() {
 					urlString="https://www.shadergradient.co/customize?animate=on&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%2357caff&color2=%23dbba95&color3=%23d0bce1&embedMode=off&envPreset=city&fov=45&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1&positionX=-1.4&positionY=0&positionZ=0&reflection=0.1&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uDensity=1.3&uFrequency=5.5&uSpeed=0.4&uStrength=4&uTime=0&wireframe=false"
 				/> */}
 			</GradientCanvas>
-			<div className="front-page-content">
+			<main className="front-page-content page-content">
 				{/* FIRST PAGE */}
-				<div className="flex justify-center items-center h-true-screen">
+				<section className="flex justify-center items-center h-full">
 					<TextReveal />
-				</div>
+				</section>
 				{/* SECOND PAGE */}
-				<div className="fit-content flex justify-center h-true-screen" id="introduction">
+				<section className="fit-content flex justify-center h-full" id="introduction">
 					<div className="introduction-container flex flex-col md:mt-32 mt-24">
 						<div className="front-page-introduction-title opacity-0 flex flex-col justify-center items-center text-center gap-6">
 							<h2
@@ -134,9 +134,9 @@ export default function Home() {
 							})}
 						</ul>
 					</div>
-				</div>
+				</section>
 				{/* THIRD PAGE */}
-				<div className="fit-content flex justify-center h-true-screen" id="empowering-neophytes">
+				<section className="fit-content flex justify-center h-full" id="empowering-neophytes">
 					<div className="empowering-neophytes-container flex flex-col gap-8 md:mt-32 mt-24">
 						<div className="empowering-neophytes-title opacity-0 flex flex-col justify-center items-center text-center gap-6">
 							<h2
@@ -181,12 +181,12 @@ export default function Home() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</section>
 				{/* FOURTH PAGE/FOOTER */}
-				<div className="flex items-end h-true-screen">
+				<section className="flex items-end h-full">
 					<Footer />
-				</div>
-			</div>
+				</section>
+			</main>
 		</div>
 	);
 }

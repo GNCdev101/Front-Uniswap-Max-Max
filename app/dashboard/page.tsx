@@ -1,11 +1,9 @@
+"use client";
+
 import React from "react";
 
-function dashboardPage() {
+export default function dashboardPage() {
 	return (
-		<div className="w-screen" style={{ height: "100lvh" }}>
-			<div className="front-page-content text-white">dashboard</div>
-		</div>
+		<h2 className="text-7xl text-neutral-300" style={{ fontStretch: "expanded" }}>DASHBOARD</h2>
 	);
 }
-
-export default dashboardPage;

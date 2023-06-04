@@ -19,6 +19,11 @@
 		background: black;
 	}
 
+	body > div:first {
+		display: flex;
+		justify-content: center;
+	}
+
 	.fit-content {
 		margin-left: auto;
 		margin-right: auto;

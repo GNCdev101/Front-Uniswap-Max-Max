@@ -9,7 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
-		"@rainbow-me/rainbowkit": "^0.12.12",
+		"@rainbow-me/rainbowkit": "^1.0.1",
 		"@react-three/drei": "^9.56.5",
 		"@react-three/fiber": "^8.12.0",
 		"@types/node": "20.2.1",
@@ -34,10 +34,13 @@
 		"three": "^0.150.1",
 		"three-stdlib": "^2.21.6",
 		"typescript": "5.0.4",
-		"viem": "^0.3.49",
-		"wagmi": "^0.12.12"
+		"viem": "^0.3.50",
+		"wagmi": "^1.1.0"
 	},
 	"devDependencies": {
 		"sass": "^1.62.1"
+	},
+	"engines": {
+		"node": ">= 19.5.0"
 	}
 }

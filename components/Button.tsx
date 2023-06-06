@@ -17,7 +17,7 @@ export default function Button({
 		return (
 			<Link
 				href={to || "/"}
-				className={`py-2 px-4 ${
+				className={`items-center justify-center text-neutral-300 py-2 px-4 ${
 					style === "solid"
 						? "box-container-solid btn-solid"
 						: "box-container btn-ghost"

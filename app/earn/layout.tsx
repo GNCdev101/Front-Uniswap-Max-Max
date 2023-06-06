@@ -1,13 +1,15 @@
 "use client";
 
+import Footer from "@/components/Footer";
+import Link from "next/link";
 import { GradientCanvas } from "shadergradient";
 import { Gradient } from "shadergradient";
+import { usePathname } from "next/navigation";
+import { networkConfig } from "../../helper-config.js";
 
-export default function DashboardLayout({
-	children, // will be a page or nested layout
-}: {
-	children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+	const pathname = usePathname();
+	
 	return (
 		<div className="w-screen" style={{ height: "100lvh" }}>
 			<GradientCanvas>
@@ -20,15 +22,34 @@ export default function DashboardLayout({
 					uSpeed={0.1}
 					cDistance={4}
 				/>
-				{/* <Gradient
-					control="query"
-          			// @ts-ignore
-					urlString="https://www.shadergradient.co/customize?animate=on&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%2357caff&color2=%23dbba95&color3=%23d0bce1&embedMode=off&envPreset=city&fov=45&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1&positionX=-1.4&positionY=0&positionZ=0&reflection=0.1&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uDensity=1.3&uFrequency=5.5&uSpeed=0.4&uStrength=4&uTime=0&wireframe=false"
-				/> */}
 			</GradientCanvas>
-			<div className="page-content">
-				<div className="flex justify-center md:mt-32 mt-24">{children}</div>
-			</div>
+			<main className="front-page-content page-content">
+				<section className="fit-content flex justify-center">
+					<div className="flex flex-col justify-center items-center gap-8 md:mt-32 mt-24">
+						<nav className="glass-container-darker w-fit px-6 py-2" style={{ borderRadius: "2.5rem" }}>
+							<ul className="flex flex-row items-center justify-center gap-2 md:text-xl text-sm" style={{ fontStretch: "expanded" }}>
+								{networkConfig[1].pools.map((pool) => (
+									<li key={pool.name}>
+										<Link
+											href={`/earn/${pool.name.toLowerCase()}`}
+											className={`text-neutral-400 hover:text-neutral-300 md:px-6 px-4 border-2 border-transparent ${
+												pathname === `/earn/${pool.name.toLowerCase()}` ? "box-container-solid hover:text-neutral-950" : ""
+											}`}
+											style={{ transition: "all 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94)" }}
+										>
+											{pool.name}
+										</Link>
+									</li>
+								))}
+							</ul>
+						</nav>
+						<div>{children}</div>
+					</div>
+				</section>
+				<section className="flex items-end h-full">
+					<Footer />
+				</section>
+			</main>
 		</div>
 	);
 }

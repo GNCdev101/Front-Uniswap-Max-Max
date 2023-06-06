@@ -8,9 +8,9 @@ function RootLayout({ children }: { children: React.ReactNode }) {
 		<html lang="en">
 			<body>
 				<Providers>
-					<div className="flex justify-center">
+					<section className="flex justify-center">
 						<Header />
-					</div>
+					</section>
 					{children}
 				</Providers>
 			</body>

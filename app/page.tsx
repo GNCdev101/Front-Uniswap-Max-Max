@@ -34,9 +34,18 @@ export default function Home() {
 				threshold: 1.0,
 			},
 		);
-		observer.observe(document.getElementById("introduction")!);
-		observer.observe(document.getElementById("empowering-neophytes")!);
-		observer.observe(document.getElementsByTagName("footer")[0]!);
+		const introduction = document.getElementById("introduction");
+		if (introduction) {
+			observer.observe(introduction);
+		}
+		const empoweringNeophytes = document.getElementById("empowering-neophytes");
+		if (empoweringNeophytes) {
+			observer.observe(empoweringNeophytes);
+		}
+		const footer = document.getElementsByTagName("footer")[0];
+		if (footer) {
+			observer.observe(footer);
+		}
 	}, []);
 
 	const features: [emoji: string, feature: string][] = [
@@ -51,7 +60,7 @@ export default function Home() {
 	const [TVT, setTVT] = React.useState(0.0);
 	React.useEffect(() => {
 		const interval = setInterval(() => {
-			if (document.getElementById("empowering-neophytes")!.classList.contains("empowering-neophytes-reveal")) {
+			if (document.getElementById("empowering-neophytes")?.classList.contains("empowering-neophytes-reveal")) {
 				if (TVL < uiConfig.TVL) {
 					setTVL(Number((TVL + 0.01).toLocaleString("en-US", { minimumFractionDigits: 2 })));
 				}
@@ -102,7 +111,7 @@ export default function Home() {
 							</p>
 						</div>
 						<div className="flex justify-center">
-							<article className="glass-container max-w-prose rounded-3xl md:p-8 p-4 flex flex-col gap-4">
+							<article className="glass-container to-reveal max-w-prose rounded-3xl md:p-8 p-4 flex flex-col gap-4">
 								<p className="text-neutral-300 lg:text-xl md:text-md text-sm text-center">
 									Uniswap Max is the next generation of decentralize trading tools. We’ve built it to
 									be as easy-to-use as possible, so even if you’re new to crypto trading, we’ll have
@@ -150,7 +159,7 @@ export default function Home() {
 						</div>
 						<div className="flex flex-col self-center gap-4 max-w-prose">
 							<article
-								className="glass-container rounded-3xl md:p-8 p-4 flex flex-col gap-4"
+								className="glass-container to-reveal rounded-3xl md:p-8 p-4 flex flex-col gap-4"
 								id="empowering-neophytes-text"
 							>
 								<p className="text-neutral-300 lg:text-xl md:text-md text-sm text-center">
@@ -165,14 +174,14 @@ export default function Home() {
 							</article>
 							<div className="grid grid-cols-2 gap-4">
 								<article
-									className="glass-container flex flex-col gap-2 rounded-3xl md:p-8 p-4"
+									className="glass-container to-reveal flex flex-col gap-2 rounded-3xl md:p-8 p-4"
 									id="TVT"
 								>
 									<h3 className="md:text-4xl text-2xl text-neutral-300">${TVT}B</h3>
 									<p className="md:text-lg text-sm text-neutral-400">Total volume traded</p>
 								</article>
 								<article
-									className="glass-container flex flex-col gap-2 rounded-3xl md:p-8 p-4"
+									className="glass-container to-reveal flex flex-col gap-2 rounded-3xl md:p-8 p-4"
 									id="TVL"
 								>
 									<h3 className="md:text-4xl text-2xl text-neutral-300">${TVL}B</h3>

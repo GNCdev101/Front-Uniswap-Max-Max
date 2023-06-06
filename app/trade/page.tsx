@@ -2,6 +2,7 @@ import React from "react";
 import TradingViewWidget from "@/components/TradingViewWidget";
 import PositionCard from "@/components/PositionCard";
 import OpenPostionForm from "@/components/OpenPostionForm";
+import Footer from "@/components/Footer";
 
 const mockId = [1, 2, 3]; // Beirao will change this to a list of pool ids
 

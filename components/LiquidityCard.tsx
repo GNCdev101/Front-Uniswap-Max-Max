@@ -1,9 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import { useAccount, usePrepareContractWrite, useContractRead, useNetwork, useContractWrite } from "wagmi";
-import { marketABI } from "../abi/market.abi.json";
-import { liquidityPoolABI } from "../abi/liquidityPool.abi.json";
-import { useEffect, useState } from "react";
+import Button from "./Button";
 
 interface LiquidityCardProps {
 	asset: string;
@@ -15,36 +11,55 @@ interface LiquidityCardProps {
 
 function LiquidityCard(props: LiquidityCardProps) {
 	return (
-		<div className="flex flex-col w-80 h-80 bg-red-400 shadow-xl m-5">
-			<div className="items-center text-center">
-				<h2 className="text-lg">{props.asset} Liquidity Pool</h2>
-				<figure className="px-10 pt-10">
-					{/* <Image
-            src={`/public/ETH.svg`}
-            width={100}
-            height={100}
-            alt="ETH logo"
-          /> */}
-				</figure>
-
-				<div className="">
-					<div className="">{props.apy}% APY</div>
-					<div className="">Utilization rate at {props.useRate}%</div>
-					<div className="">
-						Total Deposited {props.volume} {props.asset}
+		<div className="liquidity-card-container text-neutral-300">
+			<div className="flex flex-col md:gap-8 gap-2">
+				<div className="glass-container flex flex-col gap-1 rounded-3xl md:p-8 p-4">
+					<h2 className="text-3xl" style={{ fontStretch: "expanded" }}>
+						{props.asset}
+					</h2>
+					<p className="md:text-lg text-sm text-neutral-400">Liquidity Pool</p>
+				</div>
+				<div className="glass-container flex flex-col gap-6 rounded-3xl md:p-8 p-4">
+					<div className="flex flex-row items-center justify-center gap-4">
+						<input
+							type="number"
+							id={`${props.asset}-input`}
+							className="w-full"
+							min="0"
+							inputMode="numeric"
+							pattern="\d*"
+						/>
+						<label htmlFor={`${props.asset}-input`} className="md:text-2xl text-lg text-neutral-400">
+							{props.asset}
+						</label>
+					</div>
+					<div className="grid grid-cols-2 grid-rows-1 gap-4">
+						<Button type="button" size="lg" style="solid">
+							📥 Deposit
+						</Button>
+						<Button type="button" size="lg" style="ghost">
+							📤 Withdraw
+						</Button>
 					</div>
 				</div>
-				<div className="">
-					<label className="">
-						<input type="text" placeholder="0.01" className="input input-bordered" />
-						<span>{props.asset}</span>
-					</label>
-				</div>
-				<div className="mt-3">
-					<button className="mr-4 bg-slate-600">Deposit</button>
-					<button className=" ml-4 bg-slate-600">Withdraw</button>
-				</div>
-				<div className="">Your deposit : 0 {props.asset}</div>
+				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
+					<p className="md:text-4xl text-2xl text-neutral-300">0 {props.asset}</p>
+					<h4 className="md:text-lg text-sm text-neutral-400">Your deposit</h4>
+				</article>
+			</div>
+			<div className="md:flex md:flex-col md:gap-8 grid grid-cols-3 grid-rows-1 gap-2 h-fit">
+				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
+					<p className="md:text-4xl text-2xl text-neutral-300">{props.apy}%</p>
+					<h3 className="md:text-lg text-sm text-neutral-400">APY</h3>
+				</article>
+				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
+					<p className="md:text-4xl text-2xl text-neutral-300">{props.useRate}%</p>
+					<h3 className="md:text-lg text-sm text-neutral-400">Utilization rate</h3>
+				</article>
+				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
+					<p className="md:text-4xl text-2xl text-neutral-300">{props.volume.toLocaleString("en-US", {})}</p>
+					<h3 className="md:text-lg text-sm text-neutral-400">Total deposit</h3>
+				</article>
 			</div>
 		</div>
 	);

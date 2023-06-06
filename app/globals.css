@@ -100,8 +100,13 @@ header h1 {
 }
 
 header a:hover {
-	@apply text-neutral-400;
+	@apply text-neutral-400 fill-neutral-400;
 	transition: color 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+header a:hover svg {
+	@apply fill-neutral-400;
+	transition: fill 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .logo {
@@ -137,7 +142,7 @@ header a:hover {
 	scroll-behavior: smooth;
 }
 
-.front-page-content > div {
+.front-page-content > section {
 	scroll-snap-align: start;
 }
 
@@ -145,7 +150,12 @@ header a:hover {
 	animation: reveal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards;
 }
 
-.introduction-reveal .glass-container {
+.to-reveal {
+	opacity: 0;
+	transform: translateY(-2rem);
+}
+
+.introduction-reveal .to-reveal {
 	animation: reveal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s forwards;
 }
 
@@ -174,10 +184,14 @@ header a:hover {
 }
 
 .glass-container {
-	opacity: 0;
-	transform: translateY(-2rem);
 	border: 0.05rem solid rgba(255, 255, 255, 0.15);
 	backdrop-filter: blur(0.75rem) brightness(80%);
+	background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+.glass-container-darker {
+	border: 0.05rem solid rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(0.75rem) brightness(50%);
 	background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.05) 100%);
 }
 
@@ -228,7 +242,7 @@ header a:hover {
 	display: inline-flex;
 	backdrop-filter: blur(0.5rem) brightness(80%);
 	box-shadow: 0 0 0.75rem 0.25rem rgba(255, 255, 255, 0.15);
-	@apply border-2 bg-neutral-300 text-neutral-800 border-neutral-300 md:px-6 px-4 rounded-full md:leading-snug leading-relaxed;
+	@apply border-2 bg-neutral-300 text-neutral-950 border-neutral-300 md:px-6 px-4 rounded-full md:leading-snug leading-relaxed;
 }
 
 .introduction-container,
@@ -274,6 +288,7 @@ footer {
 	z-index: 1;
 	overflow: hidden;
 	position: relative;
+	text-align: center;
 }
 
 .btn-solid {
@@ -308,4 +323,36 @@ footer {
 
 .btn-ghost:hover::before {
 	transform: translate3d(-50%, -50%, 0) scale3d(15, 15, 15);
+}
+
+input[type="number"] {
+	@apply md:py-2 py-0 md:px-6 px-4 rounded-full text-xl text-neutral-300 border-2 border-neutral-300 md:leading-snug tracking-widest leading-relaxed bg-neutral-300 bg-opacity-25;
+	transition: all 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+input[type="number"]:focus {
+	@apply bg-opacity-20;
+	outline: none;
+	box-shadow: 0 0 0.5rem 0.25rem rgba(255, 255, 255, 0.15);
+	transition: all 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* LIQUIDITY CARD */
+.liquidity-card-container {
+	display: grid;
+	grid-template-columns: 1fr 0.5fr;
+	grid-template-rows: 1fr;
+	gap: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+	.liquidity-card-container {
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr 1fr;
+	}
+
+	.liquidity-card-container button {
+		font-size: 0.75rem;
+		line-height: 1rem;
+	}
 }

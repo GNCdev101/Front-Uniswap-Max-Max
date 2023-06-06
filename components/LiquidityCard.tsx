@@ -24,13 +24,11 @@ function LiquidityCard(props: LiquidityCardProps) {
 
 	const [balanceAmount, setBalanceAmount] = useState<string | unknown>("0");
 	const [amount, setAmount] = useState<number | undefined>(0);
-
 	const asset = props.asset as keyof (typeof networkConfig)[1]["pool"];
-	// const dec = networkConfig[1]["pool"][asset]["decimals"] as string;
 	const dec = parseInt(networkConfig[1]["pool"][asset]["dec"] as string);
 	const addToken = networkConfig[1]["pool"][asset]["token"] as addressT;
-
 	const poolAddress = networkConfig[1]["pool"][asset]["address"] as addressT;
+
 	const { config: approveConf } = usePrepareContractWrite({
 		address: addToken,
 		abi: ERC20ABI,

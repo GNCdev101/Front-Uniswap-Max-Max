@@ -208,13 +208,13 @@
 				{
 					"indexed": true,
 					"internalType": "address",
-					"name": "v3Pool",
+					"name": "token0",
 					"type": "address"
 				},
 				{
 					"indexed": false,
 					"internalType": "address",
-					"name": "token",
+					"name": "token1",
 					"type": "address"
 				},
 				{
@@ -282,24 +282,6 @@
 			],
 			"name": "Unpaused",
 			"type": "event"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "_poolAdd",
-					"type": "address"
-				},
-				{
-					"internalType": "uint256",
-					"name": "_assets",
-					"type": "uint256"
-				}
-			],
-			"name": "addLiquidity",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
 		},
 		{
 			"inputs": [
@@ -385,6 +367,75 @@
 		{
 			"inputs": [
 				{
+					"internalType": "uint256",
+					"name": "_posId",
+					"type": "uint256"
+				}
+			],
+			"name": "getPositionParams",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "baseToken_",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "quoteToken_",
+					"type": "address"
+				},
+				{
+					"internalType": "uint128",
+					"name": "positionSize_",
+					"type": "uint128"
+				},
+				{
+					"internalType": "uint64",
+					"name": "timestamp_",
+					"type": "uint64"
+				},
+				{
+					"internalType": "bool",
+					"name": "isShort_",
+					"type": "bool"
+				},
+				{
+					"internalType": "uint8",
+					"name": "leverage_",
+					"type": "uint8"
+				},
+				{
+					"internalType": "uint256",
+					"name": "breakEvenLimit_",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint160",
+					"name": "limitPrice_",
+					"type": "uint160"
+				},
+				{
+					"internalType": "uint256",
+					"name": "stopLossPrice_",
+					"type": "uint256"
+				},
+				{
+					"internalType": "int128",
+					"name": "currentPnL_",
+					"type": "int128"
+				},
+				{
+					"internalType": "int128",
+					"name": "collateralLeft_",
+					"type": "int128"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
 					"internalType": "address",
 					"name": "_token",
 					"type": "address"
@@ -423,6 +474,19 @@
 		{
 			"inputs": [
 				{
+					"internalType": "uint256",
+					"name": "_posId",
+					"type": "uint256"
+				}
+			],
+			"name": "liquidatePosition",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
 					"internalType": "uint256[]",
 					"name": "_posIds",
 					"type": "uint256[]"
@@ -437,13 +501,66 @@
 			"inputs": [
 				{
 					"internalType": "address",
-					"name": "_v3Pool",
+					"name": "_token0",
 					"type": "address"
 				},
 				{
 					"internalType": "address",
-					"name": "_token",
+					"name": "_token1",
 					"type": "address"
+				},
+				{
+					"internalType": "int24",
+					"name": "_fee",
+					"type": "int24"
+				},
+				{
+					"internalType": "bool",
+					"name": "_isShort",
+					"type": "bool"
+				},
+				{
+					"internalType": "uint8",
+					"name": "_leverage",
+					"type": "uint8"
+				},
+				{
+					"internalType": "uint128",
+					"name": "_amount",
+					"type": "uint128"
+				},
+				{
+					"internalType": "uint160",
+					"name": "_limitPrice",
+					"type": "uint160"
+				},
+				{
+					"internalType": "uint256",
+					"name": "_stopLossPrice",
+					"type": "uint256"
+				}
+			],
+			"name": "openPosition",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_token0",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "_token1",
+					"type": "address"
+				},
+				{
+					"internalType": "uint24",
+					"name": "_fee",
+					"type": "uint24"
 				},
 				{
 					"internalType": "bool",
@@ -507,24 +624,6 @@
 				}
 			],
 			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "_poolAdd",
-					"type": "address"
-				},
-				{
-					"internalType": "uint256",
-					"name": "_shares",
-					"type": "uint256"
-				}
-			],
-			"name": "removeLiquidity",
-			"outputs": [],
-			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{

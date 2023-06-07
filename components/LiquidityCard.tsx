@@ -21,9 +21,9 @@ type addressT = `0x${string}`;
 
 function LiquidityCard(props: LiquidityCardProps) {
 	const { isConnected, address } = useAccount();
-	const { chain } = useNetwork();
 
-	const [balanceAmount, setBalanceAmount] = useState<string | unknown>("0");
+	const [balanceShare, setBalanceShare] = useState<string | unknown>("1");
+	const [balanceAsset, setBalanceAsset] = useState<string | unknown>("0");
 	const [amount, setAmount] = useState<number | undefined>(0);
 	const asset = props.asset as keyof (typeof networkConfig)[1]["pool"];
 	const dec = parseInt(networkConfig[1]["pool"][asset]["dec"] as string);
@@ -34,7 +34,10 @@ function LiquidityCard(props: LiquidityCardProps) {
 		address: addToken,
 		abi: ERC20ABI,
 		functionName: "approve",
-		args: [address, amount],
+		args: [poolAddress, amount],
+		onSuccess(data) {
+			deposit?.();
+		},
 	});
 	const { config: depositConf } = usePrepareContractWrite({
 		address: poolAddress,
@@ -42,16 +45,21 @@ function LiquidityCard(props: LiquidityCardProps) {
 		functionName: "deposit",
 		args: [amount, address],
 	});
-
 	const { config: withdrawConf } = usePrepareContractWrite({
 		address: poolAddress,
 		abi: liquidityPoolABI,
-		functionName: "redeem",
+		functionName: "withdraw",
 		args: [amount, address, address],
 	});
 
-	const { write: approve, isSuccess: isSuccessApprove, isLoading: isLoadingApprove } = useContractWrite(approveConf);
+	// const { config: pauseConf } = usePrepareContractWrite({
+	// 	address: networkConfig[1]["addressMarket"] as addressT,
+	// 	abi: marketABI,
+	// 	functionName: "pause",
+	// });
+
 	const { write: deposit, isSuccess: isSuccessDeposit, isLoading: isLoadingDeposit } = useContractWrite(depositConf);
+	const { write: approve, isSuccess: isSuccessApprove, isLoading: isLoadingApprove } = useContractWrite(approveConf);
 	const {
 		write: withdraw,
 		isSuccess: isSuccessWithdraw,
@@ -59,9 +67,9 @@ function LiquidityCard(props: LiquidityCardProps) {
 	} = useContractWrite(withdrawConf);
 
 	const {
-		data: balanceAmountTemp,
-		isSuccess: isSuccessBalanceAmount,
-		isLoading: isLoadingBalanceAmount,
+		data: balanceShareTemp,
+		isSuccess: isSuccessBalanceShare,
+		isLoading: isLoadingBalanceShare,
 	} = useContractRead({
 		address: poolAddress,
 		abi: liquidityPoolABI,
@@ -69,9 +77,29 @@ function LiquidityCard(props: LiquidityCardProps) {
 		args: [address],
 	});
 
+	const {
+		data: balanceAssetTemp,
+		isSuccess: isSuccessBalanceAsset,
+		isLoading: isLoadingBalanceAsset,
+	} = useContractRead({
+		address: poolAddress,
+		abi: liquidityPoolABI,
+		functionName: "convertToAssets",
+		args: [balanceShare],
+	});
+
 	useEffect(() => {
-		setBalanceAmount(balanceAmountTemp);
-	}, [balanceAmountTemp, isConnected, amount]);
+		if (typeof balanceShareTemp === "bigint") {
+			setBalanceShare(balanceShareTemp.toString());
+		}
+		if (typeof balanceAssetTemp === "bigint") {
+			setBalanceAsset(balanceAssetTemp.toString());
+		}
+		if (isSuccessApprove) {
+			deposit?.();
+			setAmount(0);
+		}
+	}, [balanceShareTemp, isSuccessApprove, deposit, balanceAssetTemp, isConnected, amount]);
 
 	return (
 		<div className="liquidity-card-container text-neutral-300">
@@ -114,7 +142,6 @@ function LiquidityCard(props: LiquidityCardProps) {
 							size="lg"
 							style="solid"
 							onClick={() => {
-								approve?.();
 								deposit?.();
 							}}
 						>
@@ -122,14 +149,17 @@ function LiquidityCard(props: LiquidityCardProps) {
 						</Button>
 						<Button type="button" size="lg" style="ghost" onClick={() => withdraw?.()}>
 							📤 Withdraw
+						</Button>{" "}
+						<Button type="button" size="lg" style="ghost" onClick={() => approve?.()}>
+							Approve
 						</Button>
 					</div>
 				</div>
 				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
 					<p className="md:text-4xl text-2xl text-neutral-300">
-						{(balanceAmount ? balanceAmount : 0) as string} {props.asset}
+						{isLoadingBalanceAsset ? "-" : (balanceAsset as number) / 10 ** dec} {props.asset}
 					</p>
-					<h4 className="md:text-lg text-sm text-neutral-400">Your deposit</h4>
+					<h4 className="md:text-lg text-sm text-neutral-400">Your balance</h4>
 				</article>
 			</div>
 			<div className="md:flex md:flex-col md:gap-6 grid grid-cols-3 grid-rows-1 gap-2 h-fit">

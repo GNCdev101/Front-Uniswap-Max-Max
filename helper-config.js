@@ -6,11 +6,12 @@ const uiConfig = {
 const networkConfig = {
 	1: {
 		name: "mainnet",
-		addressMarket: "0x021DBfF4A864Aa25c51F0ad2Cd73266Fde66199d",
+		addressMarket: "0x4CF4dd3f71B67a7622ac250f8b10d266Dc5aEbcE",
+		addressPositions: "0x021DBfF4A864Aa25c51F0ad2Cd73266Fde66199d",
 		pools: [
 			{
 				name: "WETH",
-				address: "0xF4fA1c9228cEAd5b9cA71b14eBbC27Fef9FA4816",
+				address: "0xB305369CC06FD05898b1DCFb96Ae27D0c783a89e",
 				token: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
 				apy: "12",
 				dec: "18",
@@ -18,15 +19,15 @@ const networkConfig = {
 			},
 			{
 				name: "USDC",
-				address: "0xAe445C1365a5f7A99A910c29D098514566273825",
+				address: "0xE4FAEc0F9344dF83E71C4E0043e058304ACbcC09",
 				token: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
 				apy: "10",
 				dec: "6",
-				tvl: "104547451",
+				tvl: "1045474",
 			},
 			{
 				name: "WBTC",
-				address: "0x98A4C7323b01010d97F17fa4cdF326a3Ce560f2e",
+				address: "0xF2feC1B0A1ec000132A9E92e9d70ad96E93691b4",
 				token: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
 				apy: "6",
 				dec: "8",
@@ -35,21 +36,21 @@ const networkConfig = {
 		],
 		pool: {
 			WETH: {
-				address: "0xF4fA1c9228cEAd5b9cA71b14eBbC27Fef9FA4816",
+				address: "0xB305369CC06FD05898b1DCFb96Ae27D0c783a89e",
 				token: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
 				apy: "12",
 				dec: "18",
 				tvl: "1000",
 			},
 			USDC: {
-				address: "0xAe445C1365a5f7A99A910c29D098514566273825",
+				address: "0xE4FAEc0F9344dF83E71C4E0043e058304ACbcC09",
 				token: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
 				apy: "10",
 				dec: "6",
-				tvl: "104547451",
+				tvl: "1045474",
 			},
 			WBTC: {
-				address: "0x98A4C7323b01010d97F17fa4cdF326a3Ce560f2e",
+				address: "0xF2feC1B0A1ec000132A9E92e9d70ad96E93691b4",
 				token: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
 				apy: "6",
 				dec: "8",
@@ -64,16 +65,16 @@ module.exports = {
 	uiConfig,
 };
 
-//25815 500
-//25720 400
-//25439 250
-//25262 200
-//25262 170
-//25244 160
-//25235 155
-//25179 151
-//25179 150
-//25750 148
-//25750 140
-//25722 130
-//25566 100
+/*
+MetaMask - RPC Error: MetaMask Tx Signature: User denied transaction signature. {code: 4001, message: 'MetaMask Tx Signature: User denied transaction signature.'}
+
+TransactionExecutionError: User rejected the request.
+
+Request Arguments:
+  from:  0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+  to:    0xa85EffB2658CFd81e0B1AaD4f2364CdBCd89F3a1
+  data:  0x4ee0b4da0000000000000000000000002260fac5e5542a773aa44fbcfedf7c193bc2c599000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb480000000000000000000000000000000000000000000000000000000000000bb800000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000bebc20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Details: MetaMask Tx Signature: User denied transaction signature.
+Version: viem@0.3.50
+*/

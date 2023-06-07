@@ -4,39 +4,114 @@ import React from "react";
 import Image from "next/image";
 import { useAccount, usePrepareContractWrite, useContractRead, useNetwork, useContractWrite } from "wagmi";
 import { marketABI } from "../abi/market.abi.json";
-import { liquidityPoolABI } from "../abi/liquidityPool.abi.json";
+import { positionsABI } from "../abi/positions.abi.json";
+
+import { ERC20ABI } from "@/abi/ERC20.abi.json";
 import { useEffect, useState } from "react";
+import { networkConfig } from "@/helper-config.js";
 import Button from "./Button";
 import Extern from "./Extern";
 
+type addressT = `0x${string}`;
+
 function OpenPostionForm() {
-	const [addPool, setAddPool] = useState("");
+	const { isConnected, address } = useAccount();
+
+	const marketAddress = networkConfig[1]["addressMarket"] as addressT;
+	const positionsAddress = networkConfig[1]["addressPositions"] as addressT;
+	const fee = 3000;
+
+	const [addSend, setAddSend] = useState("");
 	const [addTokenToTrade, setAddTokenToTrade] = useState("");
 	const [isShort, setIsShort] = useState(false);
 	const [amount, setAmount] = useState(0);
+	const [leverage, setleverage] = useState(1);
 	const [limitPrice, setLimitPrice] = useState(0);
 	const [stopPrice, setStopPrice] = useState(0);
 
+	const [decTokenSend, setDecTokenSend] = useState(0);
+	const [decTokenTrade, setDecTokenTrade] = useState(0);
+
+	const [nameTokenSend, setNameTokenSend] = useState("");
+	const [nameTokenTrade, setNameTokenTrade] = useState("");
+
 	const [selectedValue, setSelectedValue] = useState("long");
+
+	const { config: approveConf } = usePrepareContractWrite({
+		address: addSend as addressT,
+		abi: ERC20ABI,
+		functionName: "approve",
+		args: [positionsAddress, amount],
+	});
+	//! TODO: change to market contract
+	const { config: openPosConf } = usePrepareContractWrite({
+		address: positionsAddress,
+		abi: positionsABI,
+		functionName: "openPosition",
+		args: [address, addSend, addTokenToTrade, fee, isShort, leverage, amount, limitPrice, stopPrice],
+	});
+
+	// const { config: openPosConf } = usePrepareContractWrite({
+	// 	address: marketAddress,
+	// 	abi: marketABI,
+	// 	functionName: "openPosition",
+	// 	args: [addSend, addTokenToTrade, fee, isShort, leverage, amount, limitPrice, stopPrice],
+	// });
+
+	// const { config: pauseConf } = usePrepareContractWrite({
+	// 	address: networkConfig[1]["addressMarket"] as addressT,
+	// 	abi: marketABI,
+	// 	functionName: "pause",
+	// });
 	const handleChange = (e: { target: { value: React.SetStateAction<string> } }) => {
 		setSelectedValue(e.target.value);
+		setIsShort(e.target.value === "short");
 	};
+	const {
+		write: openPosition,
+		isSuccess: isSuccessOpenPosition,
+		isLoading: isLoadingOpenPosition,
+	} = useContractWrite(openPosConf);
 
-	const handleSubmit = (event: any) => {
-		event.preventDefault();
-		alert(`addPool: ${addPool} \n
-			addTokenToTrade: ${addTokenToTrade} \n
-			isShort: ${isShort} \n
-			leverage: ${sliderValue} \n
-			amount: ${amount} \n
-			limitPrice: ${limitPrice} \n
-			stopPrice: ${stopPrice} \n`);
-	};
-	const [sliderValue, setSliderValue] = useState(1);
+	const { write: approve, isSuccess: isSuccessApprove, isLoading: isLoadingApprove } = useContractWrite(approveConf);
+
+	const { data: decTokenSendTemp } = useContractRead({
+		address: addSend as addressT,
+		abi: ERC20ABI,
+		functionName: "decimals",
+		args: [],
+	});
+	const { data: decTokenTradeTemp } = useContractRead({
+		address: addTokenToTrade as addressT,
+		abi: ERC20ABI,
+		functionName: "decimals",
+		args: [],
+	});
+
+	const { data: nameTokenSendTemp } = useContractRead({
+		address: addSend as addressT,
+		abi: ERC20ABI,
+		functionName: "symbol",
+		args: [],
+	});
+	const { data: nameTokenTradeTemp } = useContractRead({
+		address: addTokenToTrade as addressT,
+		abi: ERC20ABI,
+		functionName: "symbol",
+		args: [],
+	});
 
 	const handleSliderChange = (e: any) => {
-		setSliderValue(e.target.value);
+		setleverage(e.target.value);
 	};
+
+	useEffect(() => {
+		setDecTokenSend(decTokenSendTemp as number);
+		setDecTokenTrade(decTokenTradeTemp as number);
+
+		setNameTokenSend(nameTokenSendTemp as string);
+		setNameTokenTrade(nameTokenTradeTemp as string);
+	}, [decTokenSendTemp, decTokenTradeTemp, nameTokenSendTemp, nameTokenTradeTemp]);
 
 	return (
 		<div className="flex flex-col gap-6" style={{ height: "calc(100% - 6rem)" }}>
@@ -67,11 +142,11 @@ function OpenPostionForm() {
 				</ul>
 			</nav>
 			{selectedValue === "long" || selectedValue === "short" ? (
-				<form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+				<div>
 					<article className="glass-container flex flex-col gap-6 rounded-3xl md:p-6 p-4">
 						<div className="flex flex-col gap-1">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Token to send address
+								Token to send address ({nameTokenSend ? nameTokenSend : "-"})
 							</label>
 							<input
 								id="token-to-send"
@@ -81,11 +156,12 @@ function OpenPostionForm() {
 								className="w-full glass-input glass-input-small"
 								inputMode="text"
 								style={{ lineHeight: "1.5rem" }}
+								onChange={(e) => setAddSend(e.target.value)}
 							/>
 						</div>
 						<div className="flex flex-col gap-1">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Token to trade address
+								TokenB to trade address ({nameTokenTrade ? nameTokenTrade : "-"})
 							</label>
 							<input
 								id="token-to-trade"
@@ -95,13 +171,14 @@ function OpenPostionForm() {
 								className="w-full glass-input glass-input-small"
 								inputMode="text"
 								style={{ lineHeight: "1.5rem" }}
+								onChange={(e) => setAddTokenToTrade(e.target.value)}
 							/>
 						</div>
 					</article>
 					<article className="glass-container flex flex-col gap-4 rounded-3xl md:p-6 p-4">
 						<div className="grid grid-cols-[0.25fr,1fr] items-center gap-2">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Amount to trade
+								Amount in {nameTokenSend ? nameTokenSend : "-"}
 							</label>
 							<input
 								id="amount-to-trade"
@@ -109,11 +186,12 @@ function OpenPostionForm() {
 								min={0}
 								className="w-full glass-input glass-input-large"
 								inputMode="numeric"
+								onChange={(e) => setAmount(e.target.valueAsNumber * 10 ** decTokenSend)}
 							/>
 						</div>
 						<div className="grid grid-cols-[0.25fr,1fr] items-center gap-2">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Limit price
+								Limit price in {nameTokenTrade ? nameTokenTrade : "-"}
 							</label>
 							<input
 								id="limite-price"
@@ -121,11 +199,12 @@ function OpenPostionForm() {
 								min={0}
 								className="w-full glass-input glass-input-large"
 								inputMode="numeric"
+								onChange={(e) => setLimitPrice(e.target.valueAsNumber * 10 ** decTokenTrade)}
 							/>
 						</div>
 						<div className="grid grid-cols-[0.25fr,1fr] items-center gap-2">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Stop loss
+								Stop loss in {nameTokenTrade ? nameTokenTrade : "-"}
 							</label>
 							<input
 								id="stop-loss"
@@ -133,6 +212,7 @@ function OpenPostionForm() {
 								min={0}
 								className="w-full glass-input glass-input-large"
 								inputMode="numeric"
+								onChange={(e) => setStopPrice(e.target.valueAsNumber * 10 ** decTokenTrade)}
 							/>
 						</div>
 					</article>
@@ -141,7 +221,7 @@ function OpenPostionForm() {
 							<label className="flex flex-row gap-1 text-sm text-neutral-300" htmlFor="token-to-send">
 								<span>Leverage:</span>
 								<span className="font-bold text-neutral-300" style={{ fontStretch: "expanded" }}>
-									{sliderValue}
+									{leverage}
 								</span>
 							</label>
 							<input
@@ -151,16 +231,36 @@ function OpenPostionForm() {
 								min={1}
 								max={5}
 								className="w-full"
-								value={sliderValue}
+								value={leverage}
 								onChange={handleSliderChange}
 							/>
 						</div>
 					</article>
-				</form>
+					<Button
+						type="button"
+						size="lg"
+						style="solid"
+						onClick={() => {
+							approve?.();
+						}}
+					>
+						Approve
+					</Button>
+					<Button
+						type="button"
+						size="lg"
+						style="solid"
+						onClick={() => {
+							openPosition?.();
+						}}
+					>
+						Open position
+					</Button>
+				</div>
 			) : (
 				<article className="glass-container flex flex-col gap-6 rounded-3xl md:p-8 p-4">
 					<div className="flex justify-center">
-						<Button type="a" style="ghost" to="https://app.uniswap.org/#/swap" size="md">
+						<Button type="a" style="ghost" size="md">
 							<span>Go to Uniswap</span>
 							<Extern />
 						</Button>
@@ -168,79 +268,6 @@ function OpenPostionForm() {
 				</article>
 			)}
 		</div>
-		// <form className="flex flex-col" onSubmit={handleSubmit}>
-		// 	<label className="mt-2">
-		// 		Uniswap V3 pool address:
-		// 		<input
-		// 			className="bg-green-900"
-		// 			type="text"
-		// 			value={addPool}
-		// 			onChange={(e) => setAddPool(e.target.value)}
-		// 		/>
-		// 	</label>
-		// 	<label className="mt-2">
-		// 		Token to trade address:
-		// 		<input
-		// 			className="bg-green-900"
-		// 			type="text"
-		// 			value={addTokenToTrade}
-		// 			onChange={(e) => setAddTokenToTrade(e.target.value)}
-		// 		/>
-		// 	</label>
-		// 	<label className="mt-2">
-		// 		Amount to trade:
-		// 		<input
-		// 			className="bg-green-900"
-		// 			type="number"
-		// 			value={amount}
-		// 			onChange={(e) => setAmount(e.target.valueAsNumber)}
-		// 		/>
-		// 	</label>
-		// 	<label className="mt-2">
-		// 		Limit price:
-		// 		<input
-		// 			className="bg-green-900"
-		// 			type="number"
-		// 			value={limitPrice}
-		// 			onChange={(e) => setLimitPrice(e.target.valueAsNumber)}
-		// 		/>
-		// 	</label>
-		// 	<label className="mt-2">
-		// 		Stop loss:
-		// 		<input
-		// 			className="bg-green-900"
-		// 			type="number"
-		// 			value={stopPrice}
-		// 			onChange={(e) => setStopPrice(e.target.valueAsNumber)}
-		// 		/>
-		// 	</label>
-		// 	<label className="mt-2">
-		// 		{/*Faire un toggle pour choisir entre long et short */}
-		// 		Is short position:
-		// 		<input
-		// 			type="checkbox"
-		// 			id="myCheckbox"
-		// 			checked={isShort}
-		// 			onChange={(e) => setIsShort(e.target.checked)}
-		// 		/>
-		// 	</label>
-		// 	<label className="mt-2">
-		// 		Leverage:
-		// 		<Slider
-		// 			className="mx-12"
-		// 			min={1}
-		// 			max={5}
-		// 			step={1}
-		// 			value={leverage}
-		// 			onChange={handleSliderChange}
-		// 			railStyle={{ backgroundColor: "#e5e7eb" }}
-		// 			trackStyle={{ backgroundColor: "#10b981" }}
-		// 			handleStyle={{ backgroundColor: "#10b981", borderColor: "#10b981" }}
-		// 		/>
-		// 	</label>
-
-		// 	<input className="bg-slate-400" type="submit" />
-		// </form>
 	);
 }
 

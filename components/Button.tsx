@@ -8,7 +8,7 @@ export default function Button({
 	onClick,
 	children,
 }: {
-	type: "button" | "link";
+	type: "button" | "link" | "a";
 	to?: string;
 	size: "xs" | "sm" | "md" | "lg";
 	style: "solid" | "ghost";
@@ -27,7 +27,7 @@ export default function Button({
 				{children}
 			</Link>
 		);
-	} else {
+	} else if (type === "button") {
 		return (
 			<button
 				className={`py-2 px-4 ${
@@ -38,6 +38,19 @@ export default function Button({
 			>
 				{children}
 			</button>
+		);
+	} else {
+		return (
+			<a
+				href={to || "/"}
+				className={`items-center justify-center gap-2 text-neutral-300 py-2 px-4 ${
+					style === "solid" ? "box-container-solid btn-solid" : "box-container btn-ghost"
+				} ${size === "sm" ? "text-sm" : size === "md" ? "text-md" : size === "xs" ? "text-xs" : "text-lg"}`}
+				style={{ fontStretch: "expanded" }}
+				target={to?.includes("http") ? "_blank" : ""}
+			>
+				{children}
+			</a>
 		);
 	}
 }

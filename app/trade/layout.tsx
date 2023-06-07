@@ -28,9 +28,7 @@ export default function DashboardLayout({
 				/> */}
 			</GradientCanvas>
 			<main className="page-content front-page-content">
-				<section className="flex justify-center">
-					<div className="md:mt-32 mt-24">{children}</div>
-				</section>
+				{children}
 				<section className="flex items-end h-full">
 					<Footer />
 				</section>

@@ -32,7 +32,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 									<li key={pool.name}>
 										<Link
 											href={`/earn/${pool.name.toLowerCase()}`}
-											className={`text-neutral-400 hover:text-neutral-300 md:px-6 px-4 border-2 border-transparent ${
+											className={`text-neutral-400 hover:text-neutral-300 md:px-6 px-4 border-2 border-transparent inline-flex ${
 												pathname === `/earn/${pool.name.toLowerCase()}` ? "box-container-solid hover:text-neutral-950" : ""
 											}`}
 											style={{ transition: "all 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94)" }}

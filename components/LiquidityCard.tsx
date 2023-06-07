@@ -8,6 +8,7 @@ import { liquidityPoolABI } from "@/abi/liquidityPool.abi.json";
 import { ERC20ABI } from "@/abi/ERC20.abi.json";
 import { useEffect, useState } from "react";
 import { networkConfig } from "@/helper-config.js";
+import Image from "next/image";
 
 interface LiquidityCardProps {
 	asset: string;
@@ -74,11 +75,14 @@ function LiquidityCard(props: LiquidityCardProps) {
 
 	return (
 		<div className="liquidity-card-container text-neutral-300">
-			<div className="flex flex-col md:gap-8 gap-2">
-				<div className="glass-container flex flex-col gap-1 rounded-3xl md:p-8 p-4">
-					<h2 className="text-3xl" style={{ fontStretch: "expanded" }}>
-						{props.asset}
-					</h2>
+			<div className="flex flex-col md:gap-6 gap-2">
+				<div className="glass-container flex flex-col gap-2 rounded-3xl md:p-8 p-4">
+					<div className="flex flex-row gap-2 items-center">
+						<Image src={`/icons/${props.asset}.svg`} width={40} height={40} alt={`${props.asset} logo`} />
+						<h2 className="text-3xl" style={{ fontStretch: "expanded" }}>
+							{props.asset}
+						</h2>
+					</div>
 					<p className="md:text-lg text-sm text-neutral-400">Liquidity Pool</p>
 				</div>
 				<div className="glass-container flex flex-col gap-6 rounded-3xl md:p-8 p-4">
@@ -86,7 +90,7 @@ function LiquidityCard(props: LiquidityCardProps) {
 						<input
 							type="number"
 							id={`${props.asset}-input`}
-							className="w-full"
+							className="w-full glass-input glass-input-large"
 							min="0"
 							inputMode="numeric"
 							pattern="\d*"
@@ -123,12 +127,12 @@ function LiquidityCard(props: LiquidityCardProps) {
 				</div>
 				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
 					<p className="md:text-4xl text-2xl text-neutral-300">
-						{(balanceAmount ? balanceAmount : 0) as string} um{props.asset}
+						{(balanceAmount ? balanceAmount : 0) as string} {props.asset}
 					</p>
 					<h4 className="md:text-lg text-sm text-neutral-400">Your deposit</h4>
 				</article>
 			</div>
-			<div className="md:flex md:flex-col md:gap-8 grid grid-cols-3 grid-rows-1 gap-2 h-fit">
+			<div className="md:flex md:flex-col md:gap-6 grid grid-cols-3 grid-rows-1 gap-2 h-fit">
 				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
 					<p className="md:text-4xl text-2xl text-neutral-300">{props.apy}%</p>
 					<h3 className="md:text-lg text-sm text-neutral-400">APY</h3>

@@ -50,8 +50,8 @@ export default function TradingViewWidget() {
 	}, []);
 
 	return (
-		<div className="tradingview-widget-container">
-			<div id="tradingview_39004" />
+		<div className="tradingview-widget-container w-full h-full">
+			<div id="tradingview_39004" style={{ height: "calc(100% - 6rem)" }} />
 			<div className="tradingview-widget-copyright">
 				<a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
 					<span className="blue-text">Track all markets on TradingView</span>

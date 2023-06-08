@@ -142,9 +142,6 @@ function LiquidityCard(props: LiquidityCardProps) {
 						</Button>
 						<Button type="button" size="lg" style="ghost" onClick={() => withdraw?.()}>
 							📤 Withdraw
-						</Button>{" "}
-						<Button type="button" size="lg" style="ghost" onClick={() => approve?.()}>
-							Approve
 						</Button>
 					</div>
 				</div>

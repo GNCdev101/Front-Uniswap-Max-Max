@@ -28,8 +28,9 @@ export default function TradePage() {
 	});
 
 	useEffect(() => {
-		setTraderPositions(traderPositionsTemp as number[]);
-		console.log(traderPositions);
+		if (traderPositionsTemp) {
+			setTraderPositions((traderPositionsTemp || []) as number[]);
+		}
 	}, [traderPositionsTemp]);
 
 	return (

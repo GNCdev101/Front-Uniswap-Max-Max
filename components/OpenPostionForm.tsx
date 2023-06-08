@@ -142,7 +142,7 @@ function OpenPostionForm() {
 				</ul>
 			</nav>
 			{selectedValue === "long" || selectedValue === "short" ? (
-				<div>
+				<div className="flex flex-col gap-2">
 					<article className="glass-container flex flex-col gap-6 rounded-3xl md:p-6 p-4">
 						<div className="flex flex-col gap-1">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
@@ -161,7 +161,7 @@ function OpenPostionForm() {
 						</div>
 						<div className="flex flex-col gap-1">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								TokenB to trade address ({nameTokenTrade ? nameTokenTrade : "-"})
+								Token to trade address ({nameTokenTrade ? nameTokenTrade : "-"})
 							</label>
 							<input
 								id="token-to-trade"
@@ -176,8 +176,8 @@ function OpenPostionForm() {
 						</div>
 					</article>
 					<article className="glass-container flex flex-col gap-4 rounded-3xl md:p-6 p-4">
-						<div className="grid grid-cols-[0.25fr,1fr] items-center gap-2">
-							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
+						<div className="grid grid-cols-[0.5fr,1fr] items-center gap-2">
+							<label className="text-md font-bold text-neutral-300" htmlFor="token-to-send">
 								Amount in {nameTokenSend ? nameTokenSend : "-"}
 							</label>
 							<input
@@ -189,7 +189,7 @@ function OpenPostionForm() {
 								onChange={(e) => setAmount(e.target.valueAsNumber * 10 ** decTokenSend)}
 							/>
 						</div>
-						<div className="grid grid-cols-[0.25fr,1fr] items-center gap-2">
+						<div className="grid grid-cols-[0.5fr,1fr] items-center gap-2">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
 								Limit price in {nameTokenTrade ? nameTokenTrade : "-"}
 							</label>
@@ -197,12 +197,12 @@ function OpenPostionForm() {
 								id="limite-price"
 								type="number"
 								min={0}
-								className="w-full glass-input glass-input-large"
+								className="w-full glass-input glass-input-small"
 								inputMode="numeric"
 								onChange={(e) => setLimitPrice(e.target.valueAsNumber * 10 ** decTokenTrade)}
 							/>
 						</div>
-						<div className="grid grid-cols-[0.25fr,1fr] items-center gap-2">
+						<div className="grid grid-cols-[0.5fr,1fr] items-center gap-2">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
 								Stop loss in {nameTokenTrade ? nameTokenTrade : "-"}
 							</label>
@@ -210,13 +210,11 @@ function OpenPostionForm() {
 								id="stop-loss"
 								type="number"
 								min={0}
-								className="w-full glass-input glass-input-large"
+								className="w-full glass-input glass-input-small"
 								inputMode="numeric"
 								onChange={(e) => setStopPrice(e.target.valueAsNumber * 10 ** decTokenTrade)}
 							/>
 						</div>
-					</article>
-					<article className="glass-container flex flex-col gap-4 rounded-3xl md:p-6 p-4">
 						<div className="grid grid-cols-[0.25fr,1fr] items-center gap-4">
 							<label className="flex flex-row gap-1 text-sm text-neutral-300" htmlFor="token-to-send">
 								<span>Leverage:</span>
@@ -236,26 +234,28 @@ function OpenPostionForm() {
 							/>
 						</div>
 					</article>
-					<Button
-						type="button"
-						size="lg"
-						style="solid"
-						onClick={() => {
-							approve?.();
-						}}
-					>
-						Approve
-					</Button>
-					<Button
-						type="button"
-						size="lg"
-						style="solid"
-						onClick={() => {
-							openPosition?.();
-						}}
-					>
-						Open position
-					</Button>
+					<article className="glass-container text-neutral-300 flex flex-row justify-center gap-4 rounded-3xl md:p-6 p-4">
+						<Button
+							type="button"
+							size="xs"
+							style="solid"
+							onClick={() => {
+								approve?.();
+							}}
+						>
+							Approve
+						</Button>
+						<Button
+							type="button"
+							size="xs"
+							style="ghost"
+							onClick={() => {
+								openPosition?.();
+							}}
+						>
+							Open position
+						</Button>
+					</article>
 				</div>
 			) : (
 				<article className="glass-container flex flex-col gap-6 rounded-3xl md:p-8 p-4">

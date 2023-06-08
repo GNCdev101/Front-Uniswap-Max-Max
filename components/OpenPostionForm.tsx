@@ -260,7 +260,7 @@ function OpenPostionForm() {
 			) : (
 				<article className="glass-container flex flex-col gap-6 rounded-3xl md:p-8 p-4">
 					<div className="flex justify-center">
-						<Button type="a" style="ghost" size="md">
+						<Button type="a" style="ghost" size="md" to="https://app.uniswap.org/">
 							<span>Go to Uniswap</span>
 							<Extern />
 						</Button>

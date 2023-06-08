@@ -85,6 +85,11 @@ function LiquidityCard(props: LiquidityCardProps) {
 		args: [balanceShare],
 	});
 
+	const [selectedValue, setSelectedValue] = useState("deposit");
+	const handleChange = (e: { target: { value: React.SetStateAction<string> } }) => {
+		setSelectedValue(e.target.value);
+	};
+
 	useEffect(() => {
 		if (typeof balanceShareTemp === "bigint") {
 			setBalanceShare(balanceShareTemp.toString());
@@ -129,39 +134,63 @@ function LiquidityCard(props: LiquidityCardProps) {
 							{props.asset}
 						</label>
 					</div>
-					<div className="grid grid-cols-2 grid-rows-1 gap-4">
-						<Button
-							type="button"
-							size="lg"
-							style="solid"
-							onClick={() => {
-								deposit?.();
-							}}
+					<nav className="glass-container-darker w-fit px-6 py-2" style={{ borderRadius: "2.5rem" }}>
+						<ul
+							className="open-position-switch flex flex-row items-center justify-center gap-2 md:text-xl text-sm"
+							style={{ fontStretch: "expanded" }}
 						>
-							📥 Deposit
-						</Button>
-						<Button type="button" size="lg" style="ghost" onClick={() => withdraw?.()}>
-							📤 Withdraw
+							<li>
+								<input
+									type="radio"
+									id="deposit"
+									name="position"
+									value="deposit"
+									checked={selectedValue === "deposit"}
+									onChange={handleChange}
+								/>
+								<label htmlFor="long" className="flex flex-row gap-2">
+									<span>📥</span>
+									<span>Deposit</span>
+								</label>
+							</li>
+							<li>
+								<input
+									type="radio"
+									id="withdraw"
+									name="position"
+									value="withdraw"
+									onChange={withdraw}
+								/>
+								<label htmlFor="short" className="flex flex-row gap-2">
+									<span>📤</span>
+									<span>Withdraw</span>
+								</label>
+							</li>
+						</ul>
+					</nav>
+					<div className="flex justify-center">
+						<Button type="button" size="xs" style="solid" onClick={() => {}}>
+							👍🔓 Approve
 						</Button>
 					</div>
 				</div>
-				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
+			</div>
+			<div className="md:flex md:flex-col grid grid-cols-4 grid-rows-1 gap-2 h-fit">
+				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-6 p-4">
 					<p className="md:text-4xl text-2xl text-neutral-300">
 						{isLoadingBalanceAsset ? "-" : (balanceAsset as number) / 10 ** dec} {props.asset}
 					</p>
 					<h4 className="md:text-lg text-sm text-neutral-400">Your balance</h4>
 				</article>
-			</div>
-			<div className="md:flex md:flex-col md:gap-6 grid grid-cols-3 grid-rows-1 gap-2 h-fit">
-				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
+				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-6 p-4">
 					<p className="md:text-4xl text-2xl text-neutral-300">{props.apy}%</p>
 					<h3 className="md:text-lg text-sm text-neutral-400">APY</h3>
 				</article>
-				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
+				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-6 p-4">
 					<p className="md:text-4xl text-2xl text-neutral-300">{props.useRate}%</p>
 					<h3 className="md:text-lg text-sm text-neutral-400">Utilization rate</h3>
 				</article>
-				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-8 p-4">
+				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-6 p-4">
 					<p className="md:text-4xl text-2xl text-neutral-300">{props.volume.toLocaleString("en-US", {})}</p>
 					<h3 className="md:text-lg text-sm text-neutral-400">Total deposit</h3>
 				</article>

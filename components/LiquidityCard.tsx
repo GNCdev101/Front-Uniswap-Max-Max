@@ -35,9 +35,6 @@ function LiquidityCard(props: LiquidityCardProps) {
 		abi: ERC20ABI,
 		functionName: "approve",
 		args: [poolAddress, amount],
-		onSuccess(data) {
-			deposit?.();
-		},
 	});
 	const { config: depositConf } = usePrepareContractWrite({
 		address: poolAddress,
@@ -95,11 +92,7 @@ function LiquidityCard(props: LiquidityCardProps) {
 		if (typeof balanceAssetTemp === "bigint") {
 			setBalanceAsset(balanceAssetTemp.toString());
 		}
-		if (isSuccessApprove) {
-			deposit?.();
-			setAmount(0);
-		}
-	}, [balanceShareTemp, isSuccessApprove, deposit, balanceAssetTemp, isConnected, amount]);
+	}, [balanceShareTemp, balanceAssetTemp, isConnected, amount]);
 
 	return (
 		<div className="liquidity-card-container text-neutral-300">

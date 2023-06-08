@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { useAccount, usePrepareContractWrite, useContractRead, useNetwork, useContractWrite } from "wagmi";
 import { marketABI } from "../abi/market.abi.json";
 import { positionsABI } from "../abi/positions.abi.json";
@@ -17,13 +16,13 @@ type addressT = `0x${string}`;
 function OpenPostionForm() {
 	const { isConnected, address } = useAccount();
 
-	const marketAddress = networkConfig[1]["addressMarket"] as addressT;
-	const positionsAddress = networkConfig[1]["addressPositions"] as addressT;
+	let marketAddress = networkConfig[1]["addressMarket"] as addressT;
+	let positionsAddress = networkConfig[1]["addressPositions"] as addressT;
 	const fee = 3000;
 
 	const [addSend, setAddSend] = useState("");
 	const [addTokenToTrade, setAddTokenToTrade] = useState("");
-	const [isShort, setIsShort] = useState(false);
+	const [isShort, setIsShort] = useState<boolean>(false);
 	const [amount, setAmount] = useState(0);
 	const [leverage, setleverage] = useState(1);
 	const [limitPrice, setLimitPrice] = useState(0);
@@ -44,14 +43,14 @@ function OpenPostionForm() {
 		args: [positionsAddress, amount],
 	});
 	//! TODO: change to market contract
-	const { config: openPosConf } = usePrepareContractWrite({
+	let { config: openPosConf } = usePrepareContractWrite({
 		address: positionsAddress,
 		abi: positionsABI,
 		functionName: "openPosition",
 		args: [address, addSend, addTokenToTrade, fee, isShort, leverage, amount, limitPrice, stopPrice],
 	});
 
-	// const { config: openPosConf } = usePrepareContractWrite({
+	// let { config: openPosConf } = usePrepareContractWrite({
 	// 	address: marketAddress,
 	// 	abi: marketABI,
 	// 	functionName: "openPosition",
@@ -102,7 +101,7 @@ function OpenPostionForm() {
 	});
 
 	const handleSliderChange = (e: any) => {
-		setleverage(e.target.value);
+		setleverage(Number(e.target.value));
 	};
 
 	useEffect(() => {
@@ -111,7 +110,17 @@ function OpenPostionForm() {
 
 		setNameTokenSend(nameTokenSendTemp as string);
 		setNameTokenTrade(nameTokenTradeTemp as string);
-	}, [decTokenSendTemp, decTokenTradeTemp, nameTokenSendTemp, nameTokenTradeTemp]);
+
+		console.log("address : ", address);
+		console.log("addSend : ", addSend);
+		console.log("addTokenToTrade : ", addTokenToTrade);
+		console.log("fee : ", fee);
+		console.log("isShort : ", isShort);
+		console.log("leverage : ", leverage);
+		console.log("amount : ", amount);
+		console.log("limitPrice : ", limitPrice);
+		console.log("stopPrice : ", stopPrice);
+	}, [decTokenSendTemp, decTokenTradeTemp, nameTokenSendTemp, nameTokenTradeTemp, amount]);
 
 	return (
 		<div className="flex flex-col gap-6" style={{ height: "calc(100% - 6rem)" }}>
@@ -204,7 +213,7 @@ function OpenPostionForm() {
 						</div>
 						<div className="grid grid-cols-[0.5fr,1fr] items-center gap-2">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Stop loss in {nameTokenTrade ? nameTokenTrade : "-"}
+								Stop loss in {nameTokenTrade ? Number(nameTokenTrade) : "-"}
 							</label>
 							<input
 								id="stop-loss"

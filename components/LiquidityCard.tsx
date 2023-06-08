@@ -135,7 +135,8 @@ function LiquidityCard(props: LiquidityCardProps) {
 						</label>
 					</div>
 					<nav className="glass-container-darker w-fit px-6 py-2" style={{ borderRadius: "2.5rem" }}>
-						<ul
+						<div className="flex flex-row items-center justify-center gap-2 md:text-xl text-sm p-2">
+							{/* <ul
 							className="open-position-switch flex flex-row items-center justify-center gap-2 md:text-xl text-sm"
 							style={{ fontStretch: "expanded" }}
 						>
@@ -159,18 +160,31 @@ function LiquidityCard(props: LiquidityCardProps) {
 									id="withdraw"
 									name="position"
 									value="withdraw"
-									onChange={withdraw}
+									// onChange={withdraw}
+									onClick={() => approve?.()}
 								/>
 								<label htmlFor="short" className="flex flex-row gap-2">
 									<span>📤</span>
 									<span>Withdraw</span>
 								</label>
 							</li>
-						</ul>
+						</ul> */}
+							<div className="pr-5">
+								<Button type="button" size="md" style="solid" onClick={() => deposit?.()}>
+									<span>📥</span>
+									<span>Deposit</span>
+								</Button>
+							</div>
+
+							<Button type="button" size="md" style="ghost" onClick={() => withdraw?.()}>
+								<span>📤</span>
+								<span>Withdraw</span>
+							</Button>
+						</div>
 					</nav>
 					<div className="flex justify-center">
-						<Button type="button" size="xs" style="solid" onClick={() => {}}>
-							👍🔓 Approve
+						<Button type="button" size="xs" style="solid" onClick={() => approve?.()}>
+							🔓 Approve
 						</Button>
 					</div>
 				</div>
@@ -178,7 +192,7 @@ function LiquidityCard(props: LiquidityCardProps) {
 			<div className="md:flex md:flex-col grid grid-cols-4 grid-rows-1 gap-2 h-fit">
 				<article className="glass-container flex flex-col md:gap-2 gap-1 rounded-3xl md:p-6 p-4">
 					<p className="md:text-4xl text-2xl text-neutral-300">
-						{isLoadingBalanceAsset ? "-" : (balanceAsset as number) / 10 ** dec} {props.asset}
+						{isLoadingBalanceAsset ? "-" : (balanceAsset as number) / 10 ** dec}
 					</p>
 					<h4 className="md:text-lg text-sm text-neutral-400">Your balance</h4>
 				</article>

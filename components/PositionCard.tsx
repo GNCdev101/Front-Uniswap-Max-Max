@@ -1,10 +1,15 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { useAccount, usePrepareContractWrite, useContractRead, useNetwork, useContractWrite } from "wagmi";
-import { marketABI } from "../abi/market.abi.json";
-import { ERC20ABI } from "@/abi/ERC20.abi.json";
-import { liquidityPoolABI } from "../abi/liquidityPool.abi.json";
+import marketData from "../abi/market.abi.json";
+import ERC20Data from "@/abi/ERC20.abi.json";
+import liquidityPoolData from "../abi/liquidityPool.abi.json";
 import { useEffect, useState } from "react";
+
+const { marketABI } = marketData;
+const { ERC20ABI } = ERC20Data;
+const { liquidityPoolABI } = liquidityPoolData;
 import { networkConfig } from "@/helper-config.js";
 import Button from "./Button";
 
@@ -14,8 +19,10 @@ interface PositionCardProps {
 type addressT = `0x${string}`;
 
 function PositionCard(props: PositionCardProps) {
-	const marketAddress = networkConfig[1]["addressMarket"] as addressT;
-	const positionsAddress = networkConfig[1]["addressPositions"] as addressT;
+	const { chain } = useNetwork();
+	const chainId = (chain?.id && chain.id in networkConfig ? chain.id : 1) as keyof typeof networkConfig;
+	const marketAddress = networkConfig[chainId]["addressMarket"] as addressT;
+	const positionsAddress = networkConfig[chainId]["addressPositions"] as addressT;
 
 	const [addBaseToken, setAddBaseToken] = useState("");
 	const [addQuoteToken, setAddQuoteToken] = useState("");

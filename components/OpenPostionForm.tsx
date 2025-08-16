@@ -2,22 +2,29 @@
 
 import React from "react";
 import { useAccount, usePrepareContractWrite, useContractRead, useNetwork, useContractWrite } from "wagmi";
-import { marketABI } from "../abi/market.abi.json";
-import { positionsABI } from "../abi/positions.abi.json";
-
-import { ERC20ABI } from "@/abi/ERC20.abi.json";
+import marketData from "../abi/market.abi.json";
+import positionsData from "../abi/positions.abi.json";
+import ERC20Data from "@/abi/ERC20.abi.json";
 import { useEffect, useState } from "react";
+
+const { marketABI } = marketData;
+const { positionsABI } = positionsData;
+const { ERC20ABI } = ERC20Data;
 import { networkConfig } from "@/helper-config.js";
 import Button from "./Button";
 import Extern from "./Extern";
 
 type addressT = `0x${string}`;
 
-function OpenPostionForm() {
-	const { isConnected, address } = useAccount();
+const ethAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/;
 
-	let marketAddress = networkConfig[1]["addressMarket"] as addressT;
-	let positionsAddress = networkConfig[1]["addressPositions"] as addressT;
+function OpenPostionForm({ onPositionOpened }: { onPositionOpened: () => void }) {
+	const { isConnected, address } = useAccount();
+	const { chain } = useNetwork();
+	const chainId = (chain?.id && chain.id in networkConfig ? chain.id : 1) as keyof typeof networkConfig;
+
+	let marketAddress = networkConfig[chainId]["addressMarket"] as addressT;
+	let positionsAddress = networkConfig[chainId]["addressPositions"] as addressT;
 	const fee = 3000;
 
 	const [addSend, setAddSend] = useState("");
@@ -35,6 +42,15 @@ function OpenPostionForm() {
 	const [nameTokenTrade, setNameTokenTrade] = useState("");
 
 	const [selectedValue, setSelectedValue] = useState("long");
+	const [isFormValid, setIsFormValid] = useState(false);
+	const [isApproveValid, setIsApproveValid] = useState(false);
+
+	useEffect(() => {
+		const isAddSendValid = ethAddressRegex.test(addSend);
+		const isAddTokenToTradeValid = ethAddressRegex.test(addTokenToTrade);
+		setIsApproveValid(isAddSendValid && amount > 0);
+		setIsFormValid(isAddSendValid && isAddTokenToTradeValid && amount > 0);
+	}, [addSend, addTokenToTrade, amount]);
 
 	const { config: approveConf } = usePrepareContractWrite({
 		address: addSend as addressT,
@@ -42,20 +58,12 @@ function OpenPostionForm() {
 		functionName: "approve",
 		args: [positionsAddress, amount],
 	});
-	//! TODO: change to market contract
 	let { config: openPosConf } = usePrepareContractWrite({
-		address: positionsAddress,
-		abi: positionsABI,
+		address: marketAddress,
+		abi: marketABI,
 		functionName: "openPosition",
-		args: [address, addSend, addTokenToTrade, fee, isShort, leverage, amount, limitPrice, stopPrice],
+		args: [addSend, addTokenToTrade, fee, isShort, leverage, amount, limitPrice, stopPrice],
 	});
-
-	// let { config: openPosConf } = usePrepareContractWrite({
-	// 	address: marketAddress,
-	// 	abi: marketABI,
-	// 	functionName: "openPosition",
-	// 	args: [addSend, addTokenToTrade, fee, isShort, leverage, amount, limitPrice, stopPrice],
-	// });
 
 	// const { config: pauseConf } = usePrepareContractWrite({
 	// 	address: networkConfig[1]["addressMarket"] as addressT,
@@ -70,7 +78,12 @@ function OpenPostionForm() {
 		write: openPosition,
 		isSuccess: isSuccessOpenPosition,
 		isLoading: isLoadingOpenPosition,
-	} = useContractWrite(openPosConf);
+	} = useContractWrite({
+		...openPosConf,
+		onSuccess: () => {
+			onPositionOpened();
+		},
+	});
 
 	const { write: approve, isSuccess: isSuccessApprove, isLoading: isLoadingApprove } = useContractWrite(approveConf);
 
@@ -120,7 +133,7 @@ function OpenPostionForm() {
 		console.log("amount : ", amount);
 		console.log("limitPrice : ", limitPrice);
 		console.log("stopPrice : ", stopPrice);
-	}, [decTokenSendTemp, decTokenTradeTemp, nameTokenSendTemp, nameTokenTradeTemp, amount]);
+	}, [decTokenSendTemp, decTokenTradeTemp, nameTokenSendTemp, nameTokenTradeTemp, amount, addSend, addTokenToTrade, address, isShort, leverage, limitPrice, stopPrice]);
 
 	return (
 		<div className="flex flex-col gap-6" style={{ height: "calc(100% - 6rem)" }}>
@@ -251,8 +264,9 @@ function OpenPostionForm() {
 							onClick={() => {
 								approve?.();
 							}}
+							disabled={!isApproveValid || isLoadingApprove}
 						>
-							Approve
+							{isLoadingApprove ? "Approving..." : "Approve"}
 						</Button>
 						<Button
 							type="button"
@@ -261,8 +275,9 @@ function OpenPostionForm() {
 							onClick={() => {
 								openPosition?.();
 							}}
+							disabled={!isFormValid || isLoadingOpenPosition}
 						>
-							Open position
+							{isLoadingOpenPosition ? "Opening..." : "Open position"}
 						</Button>
 					</article>
 				</div>

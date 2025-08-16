@@ -58,23 +58,77 @@ const networkConfig = {
 			},
 		},
 	},
-};
-
+	137: { // Polygon network (chain ID 137)
+		name: "polygon",
+		addressMarket: "0xD0E57cc177994287F6B654CFC3CFA7E8d561412c", // Market contract address from deployment
+		addressPositions: "0x6b297328593F410022683205674fe1487602B84A", // Positions contract address from deployment
+		pools: [
+		  {
+			name: "WBTC",
+			address: "0x2e2A0Deb39bAAe4C3E43EcA0A345e2f0625b7Cf2", // WBTC LiquidityPool address
+			token: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", // WBTC token address on Polygon
+			apy: "6", // Placeholder APY (replace with actual value)
+			dec: "8", // WBTC decimals from deployment trace
+			tvl: "120", // Placeholder TVL (replace with actual value)
+		  },
+		  {
+			name: "WPOL",
+			address: "0x02D84726680ABF105f6a0532FE6eB85e3289455A", // WPOL LiquidityPool address
+			token: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // WPOL token address on Polygon
+			apy: "12", // Placeholder APY (replace with actual value)
+			dec: "18", // WPOL decimals from deployment trace
+			tvl: "1000", // Placeholder TVL (replace with actual value)
+		  },
+		  {
+			name: "USDC",
+			address: "0x3f93F66b04Fa9fA6249f2323d1935f7254930C21", // USDC LiquidityPool address
+			token: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", // USDC token address on Polygon
+			apy: "10", // Placeholder APY (replace with actual value)
+			dec: "6", // USDC decimals from deployment trace
+			tvl: "1045474", // Placeholder TVL (replace with actual value)
+		  },
+		  {
+			name: "DAI",
+			address: "0x51e3Da9A54eB57920DAD51E36ff4eD35803085f3", // DAI LiquidityPool address
+			token: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", // DAI token address on Polygon
+			apy: "8", // Placeholder APY (replace with actual value)
+			dec: "18", // DAI decimals from deployment trace
+			tvl: "500", // Placeholder TVL (replace with actual value)
+		  },
+		],
+		pool: {
+		  WBTC: {
+			address: "0x2e2A0Deb39bAAe4C3E43EcA0A345e2f0625b7Cf2", // WBTC LiquidityPool address
+			token: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", // WBTC token address
+			apy: "6", // Placeholder APY (replace with actual value)
+			dec: "8", // WBTC decimals
+			tvl: "120", // Placeholder TVL (replace with actual value)
+		  },
+		  WPOL: {
+			address: "0x02D84726680ABF105f6a0532FE6eB85e3289455A", // WPOL LiquidityPool address
+			token: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // WPOL token address
+			apy: "12", // Placeholder APY (replace with actual value)
+			dec: "18", // WPOL decimals
+			tvl: "1000", // Placeholder TVL (replace with actual value)
+		  },
+		  USDC: {
+			address: "0x3f93F66b04Fa9fA6249f2323d1935f7254930C21", // USDC LiquidityPool address
+			token: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", // USDC token address
+			apy: "10", // Placeholder APY (replace with actual value)
+			dec: "6", // USDC decimals
+			tvl: "1045474", // Placeholder TVL (replace with actual value)
+		  },
+		  DAI: {
+			address: "0x51e3Da9A54eB57920DAD51E36ff4eD35803085f3", // DAI LiquidityPool address
+			token: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", // DAI token address
+			apy: "8", // Placeholder APY (replace with actual value)
+			dec: "18", // DAI decimals
+			tvl: "500", // Placeholder TVL (replace with actual value)
+		  },
+		},
+	  },
+	};
 module.exports = {
 	networkConfig,
 	uiConfig,
 };
-
-/*
-MetaMask - RPC Error: MetaMask Tx Signature: User denied transaction signature. {code: 4001, message: 'MetaMask Tx Signature: User denied transaction signature.'}
-
-TransactionExecutionError: User rejected the request.
-
-Request Arguments:
-  from:  0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
-  to:    0xa85EffB2658CFd81e0B1AaD4f2364CdBCd89F3a1
-  data:  0x4ee0b4da0000000000000000000000002260fac5e5542a773aa44fbcfedf7c193bc2c599000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb480000000000000000000000000000000000000000000000000000000000000bb800000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000bebc20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-
-Details: MetaMask Tx Signature: User denied transaction signature.
-Version: viem@0.3.50
-*/

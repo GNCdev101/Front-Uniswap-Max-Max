@@ -24,7 +24,7 @@ function LiquidityCard(props: LiquidityCardProps) {
 
 	const [balanceShare, setBalanceShare] = useState<string | unknown>("1");
 	const [balanceAsset, setBalanceAsset] = useState<string | unknown>("0");
-	const [amount, setAmount] = useState<number | undefined>(0);
+	const [amount, setAmount] = useState<bigint | undefined>();
 	const asset = props.asset as keyof (typeof networkConfig)[1]["pool"];
 	const dec = parseInt(networkConfig[1]["pool"][asset]["dec"] as string);
 	const addToken = networkConfig[1]["pool"][asset]["token"] as addressT;
@@ -122,11 +122,17 @@ function LiquidityCard(props: LiquidityCardProps) {
 							pattern="\d*"
 							onChange={(event) => {
 								const inputValue = event.target.value;
-								const floatValue = parseFloat(inputValue);
-								const roundedValue = Math.round(floatValue * 10 ** dec);
-
-								if (!isNaN(roundedValue)) {
-									setAmount(roundedValue);
+								if (inputValue) {
+									const floatValue = parseFloat(inputValue);
+									const scaledValue = floatValue * 10 ** dec;
+									try {
+										setAmount(BigInt(Math.round(scaledValue)));
+									} catch (e) {
+										console.error(e);
+										setAmount(undefined);
+									}
+								} else {
+									setAmount(undefined);
 								}
 							}}
 						/>
@@ -170,7 +176,7 @@ function LiquidityCard(props: LiquidityCardProps) {
 							</li>
 						</ul> */}
 							<div className="pr-5">
-								<Button type="button" size="md" style="solid" onClick={() => deposit?.()}>
+								<Button type="button" size="md" style="solid" onClick={() => deposit?.()} disabled={!deposit}>
 									<span>📥</span>
 									<span>Deposit</span>
 								</Button>

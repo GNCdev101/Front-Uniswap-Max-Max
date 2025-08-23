@@ -18,7 +18,6 @@ function OpenPostionForm() {
 
 	let marketAddress = networkConfig[1]["addressMarket"] as addressT;
 	let positionsAddress = networkConfig[1]["addressPositions"] as addressT;
-	const fee = 3000;
 
 	const [addSend, setAddSend] = useState("");
 	const [addTokenToTrade, setAddTokenToTrade] = useState("");
@@ -27,6 +26,7 @@ function OpenPostionForm() {
 	const [leverage, setleverage] = useState(1);
 	const [limitPrice, setLimitPrice] = useState(0);
 	const [stopPrice, setStopPrice] = useState(0);
+	const [fee, setFee] = useState(3000);
 
 	const [decTokenSend, setDecTokenSend] = useState(0);
 	const [decTokenTrade, setDecTokenTrade] = useState(0);
@@ -241,6 +241,46 @@ function OpenPostionForm() {
 								value={leverage}
 								onChange={handleSliderChange}
 							/>
+						</div>
+						<div className="grid grid-cols-[0.25fr,1fr] items-center gap-4">
+							<label className="flex flex-row gap-1 text-sm text-neutral-300" htmlFor="fee-selector">
+								<span>Fee:</span>
+							</label>
+							<div id="fee-selector" className="flex flex-row gap-x-4">
+								<div>
+									<input
+										type="radio"
+										id="fee-500"
+										name="fee"
+										value={500}
+										checked={fee === 500}
+										onChange={(e) => setFee(Number(e.target.value))}
+									/>
+									<label htmlFor="fee-500"> 0.05%</label>
+								</div>
+								<div>
+									<input
+										type="radio"
+										id="fee-3000"
+										name="fee"
+										value={3000}
+										checked={fee === 3000}
+										onChange={(e) => setFee(Number(e.target.value))}
+									/>
+									<label htmlFor="fee-3000"> 0.3%</label>
+								</div>
+								<div>
+									<input
+										type="radio"
+										id="fee-10000"
+										name="fee"
+										value={10000}
+										checked={fee === 10000}
+										onChange={(e) => setFee(Number(e.target.value))}
+									/>
+									<label htmlFor="fee-10000"> 1%</label>
+								</div>
+							</div>
 						</div>
 					</article>
 					<article className="glass-container text-neutral-300 flex flex-row justify-center gap-4 rounded-3xl md:p-6 p-4">

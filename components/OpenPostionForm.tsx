@@ -15,18 +15,23 @@ type addressT = `0x${string}`;
 
 function OpenPostionForm() {
 	const { isConnected, address } = useAccount();
+	const { chain } = useNetwork();
 
-	let marketAddress = networkConfig[1]["addressMarket"] as addressT;
-	let positionsAddress = networkConfig[1]["addressPositions"] as addressT;
-	const fee = 3000;
+	if (!chain || !networkConfig[chain.id]) {
+		return <div>Unsupported network</div>;
+	}
 
-	const [addSend, setAddSend] = useState("");
-	const [addTokenToTrade, setAddTokenToTrade] = useState("");
+	let marketAddress = networkConfig[chain.id]["addressMarket"] as addressT;
+	let positionsAddress = networkConfig[chain.id]["addressPositions"] as addressT;
+
+	const [addSend, setAddSend] = useState(networkConfig[chain.id].pools[0].token);
+	const [addTokenToTrade, setAddTokenToTrade] = useState(networkConfig[chain.id].pools[1].token);
 	const [isShort, setIsShort] = useState<boolean>(false);
 	const [amount, setAmount] = useState(0);
 	const [leverage, setleverage] = useState(1);
 	const [limitPrice, setLimitPrice] = useState(0);
 	const [stopPrice, setStopPrice] = useState(0);
+	const [fee, setFee] = useState(3000);
 
 	const [decTokenSend, setDecTokenSend] = useState(0);
 	const [decTokenTrade, setDecTokenTrade] = useState(0);
@@ -155,33 +160,39 @@ function OpenPostionForm() {
 					<article className="glass-container flex flex-col gap-6 rounded-3xl md:p-6 p-4">
 						<div className="flex flex-col gap-1">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Token to send address ({nameTokenSend ? nameTokenSend : "-"})
+								Token to send ({nameTokenSend ? nameTokenSend : "-"})
 							</label>
-							<input
+							<select
 								id="token-to-send"
-								type="text"
-								maxLength={42}
-								minLength={42}
 								className="w-full glass-input glass-input-small"
-								inputMode="text"
 								style={{ lineHeight: "1.5rem" }}
 								onChange={(e) => setAddSend(e.target.value)}
-							/>
+								value={addSend}
+							>
+								{networkConfig[chain.id].pools.map((pool) => (
+									<option key={pool.token} value={pool.token}>
+										{pool.name}
+									</option>
+								))}
+							</select>
 						</div>
 						<div className="flex flex-col gap-1">
-							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Token to trade address ({nameTokenTrade ? nameTokenTrade : "-"})
+							<label className="text-sm text-neutral-300" htmlFor="token-to-trade">
+								Token to trade ({nameTokenTrade ? nameTokenTrade : "-"})
 							</label>
-							<input
+							<select
 								id="token-to-trade"
-								type="text"
-								maxLength={42}
-								minLength={42}
 								className="w-full glass-input glass-input-small"
-								inputMode="text"
 								style={{ lineHeight: "1.5rem" }}
 								onChange={(e) => setAddTokenToTrade(e.target.value)}
-							/>
+								value={addTokenToTrade}
+							>
+								{networkConfig[chain.id].pools.map((pool) => (
+									<option key={pool.token} value={pool.token}>
+										{pool.name}
+									</option>
+								))}
+							</select>
 						</div>
 					</article>
 					<article className="glass-container flex flex-col gap-4 rounded-3xl md:p-6 p-4">
@@ -241,6 +252,46 @@ function OpenPostionForm() {
 								value={leverage}
 								onChange={handleSliderChange}
 							/>
+						</div>
+						<div className="grid grid-cols-[0.25fr,1fr] items-center gap-4">
+							<label className="flex flex-row gap-1 text-sm text-neutral-300" htmlFor="fee-selector">
+								<span>Fee:</span>
+							</label>
+							<div id="fee-selector" className="flex flex-row gap-x-4">
+								<div>
+									<input
+										type="radio"
+										id="fee-500"
+										name="fee"
+										value={500}
+										checked={fee === 500}
+										onChange={(e) => setFee(Number(e.target.value))}
+									/>
+									<label htmlFor="fee-500"> 0.05%</label>
+								</div>
+								<div>
+									<input
+										type="radio"
+										id="fee-3000"
+										name="fee"
+										value={3000}
+										checked={fee === 3000}
+										onChange={(e) => setFee(Number(e.target.value))}
+									/>
+									<label htmlFor="fee-3000"> 0.3%</label>
+								</div>
+								<div>
+									<input
+										type="radio"
+										id="fee-10000"
+										name="fee"
+										value={10000}
+										checked={fee === 10000}
+										onChange={(e) => setFee(Number(e.target.value))}
+									/>
+									<label htmlFor="fee-10000"> 1%</label>
+								</div>
+							</div>
 						</div>
 					</article>
 					<article className="glass-container text-neutral-300 flex flex-row justify-center gap-4 rounded-3xl md:p-6 p-4">

@@ -6,9 +6,15 @@ import { GradientCanvas } from "shadergradient";
 import { Gradient } from "shadergradient";
 import { usePathname } from "next/navigation";
 import { networkConfig } from "../../helper-config.js";
+import { useNetwork } from "wagmi";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
+	const { chain } = useNetwork();
+
+	if (!chain || !networkConfig[chain.id]) {
+		return <div>Unsupported network</div>;
+	}
 	
 	return (
 		<div className="w-screen" style={{ height: "100lvh" }}>
@@ -28,7 +34,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 					<div className="flex flex-col justify-center items-center gap-8 md:mt-32 mt-24">
 						<nav className="glass-container-darker w-fit px-6 py-2" style={{ borderRadius: "2.5rem" }}>
 							<ul className="flex flex-row items-center justify-center gap-2 md:text-xl text-sm" style={{ fontStretch: "expanded" }}>
-								{networkConfig[1].pools.map((pool) => (
+								{networkConfig[chain.id].pools.map((pool) => (
 									<li key={pool.name}>
 										<Link
 											href={`/earn/${pool.name.toLowerCase()}`}

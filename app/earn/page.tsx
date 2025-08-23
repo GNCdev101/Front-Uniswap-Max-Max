@@ -3,10 +3,16 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { networkConfig } from "../../helper-config.js";
+import { useNetwork } from "wagmi";
 
 function EarnPage() {
 	const router = useRouter();
 	const [selectedPool, setSelectedPool] = useState("");
+	const { chain } = useNetwork();
+
+	if (!chain || !networkConfig[chain.id]) {
+		return <div>Unsupported network</div>;
+	}
 
 	const handlePoolChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const poolName = event.target.value;
@@ -30,7 +36,7 @@ function EarnPage() {
 					<option value="" disabled>
 						Choose a token
 					</option>
-					{networkConfig[1].pools.map((pool) => (
+					{networkConfig[chain.id].pools.map((pool) => (
 						<option key={pool.name} value={pool.name}>
 							{pool.name}
 						</option>

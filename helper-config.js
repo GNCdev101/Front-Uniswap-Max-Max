@@ -61,6 +61,63 @@ const networkConfig = {
 			},
 		},
 	},
+	137: {
+		name: "polygon",
+		addressMarket: "0x0000000000000000000000000000000000000000",
+		addressPositions: "0x0000000000000000000000000000000000000000",
+		pools: [
+			{
+				name: "WETH",
+				address: "0x0000000000000000000000000000000000000000",
+				token: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+				apy: "12",
+				dec: "18",
+				tvl: "1000",
+				fees: [0.05, 0.3, 1],
+			},
+			{
+				name: "USDC",
+				address: "0x0000000000000000000000000000000000000000",
+				token: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+				apy: "10",
+				dec: "6",
+				tvl: "1045474",
+				fees: [0.05, 0.3, 1],
+			},
+			{
+				name: "WBTC",
+				address: "0x0000000000000000000000000000000000000000",
+				token: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
+				apy: "6",
+				dec: "8",
+				tvl: "120",
+				fees: [0.05, 0.3, 1],
+			},
+		],
+		pool: {
+			WETH: {
+				address: "0x0000000000000000000000000000000000000000",
+				token: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+				apy: "12",
+				dec: "18",
+				tvl: "1000",
+			},
+			USDC: {
+				address: "0x0000000000000000000000000000000000000000",
+				token: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+				apy: "10",
+				dec: "6",
+				tvl: "1045474",
+			},
+			WBTC: {
+				address: "0x0000000000000000000000000000000000000000",
+				token: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
+				apy: "6",
+				dec: "8",
+				tvl: "120",
+			},
+		},
+	},
 };
 
 module.exports = {

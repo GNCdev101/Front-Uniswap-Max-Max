@@ -15,9 +15,14 @@ type addressT = `0x${string}`;
 
 function OpenPostionForm() {
 	const { isConnected, address } = useAccount();
+	const { chain } = useNetwork();
 
-	let marketAddress = networkConfig[1]["addressMarket"] as addressT;
-	let positionsAddress = networkConfig[1]["addressPositions"] as addressT;
+	if (!chain || !networkConfig[chain.id]) {
+		return <div>Unsupported network</div>;
+	}
+
+	let marketAddress = networkConfig[chain.id]["addressMarket"] as addressT;
+	let positionsAddress = networkConfig[chain.id]["addressPositions"] as addressT;
 
 	const [addSend, setAddSend] = useState("");
 	const [addTokenToTrade, setAddTokenToTrade] = useState("");

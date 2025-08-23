@@ -22,15 +22,20 @@ type addressT = `0x${string}`;
 
 function LiquidityCard(props: LiquidityCardProps) {
 	const { isConnected, address } = useAccount();
+	const { chain } = useNetwork();
+
+	if (!chain || !networkConfig[chain.id]) {
+		return <div>Unsupported network</div>;
+	}
 
 	const [balanceShare, setBalanceShare] = useState<string | unknown>("1");
 	const [balanceAsset, setBalanceAsset] = useState<string | unknown>("0");
 	const [amount, setAmount] = useState<bigint | undefined>();
 	const [selectedFee, setSelectedFee] = useState<number>(props.fees[0]);
-	const asset = props.asset as keyof (typeof networkConfig)[1]["pool"];
-	const dec = parseInt(networkConfig[1]["pool"][asset]["dec"] as string);
-	const addToken = networkConfig[1]["pool"][asset]["token"] as addressT;
-	const poolAddress = networkConfig[1]["pool"][asset]["address"] as addressT;
+	const asset = props.asset as keyof (typeof networkConfig)[typeof chain.id]["pool"];
+	const dec = parseInt(networkConfig[chain.id]["pool"][asset]["dec"] as string);
+	const addToken = networkConfig[chain.id]["pool"][asset]["token"] as addressT;
+	const poolAddress = networkConfig[chain.id]["pool"][asset]["address"] as addressT;
 
 	const { config: approveConf } = usePrepareContractWrite({
 		address: addToken,

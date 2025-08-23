@@ -16,6 +16,7 @@ interface LiquidityCardProps {
 	apy: number;
 	volume: number;
 	useRate: number;
+	fees: number[];
 }
 type addressT = `0x${string}`;
 
@@ -25,6 +26,7 @@ function LiquidityCard(props: LiquidityCardProps) {
 	const [balanceShare, setBalanceShare] = useState<string | unknown>("1");
 	const [balanceAsset, setBalanceAsset] = useState<string | unknown>("0");
 	const [amount, setAmount] = useState<bigint | undefined>();
+	const [selectedFee, setSelectedFee] = useState<number>(props.fees[0]);
 	const asset = props.asset as keyof (typeof networkConfig)[1]["pool"];
 	const dec = parseInt(networkConfig[1]["pool"][asset]["dec"] as string);
 	const addToken = networkConfig[1]["pool"][asset]["token"] as addressT;
@@ -139,6 +141,32 @@ function LiquidityCard(props: LiquidityCardProps) {
 						<label htmlFor={`${props.asset}-input`} className="md:text-2xl text-lg text-neutral-400">
 							{props.asset}
 						</label>
+					</div>
+					<div className="flex flex-col gap-2">
+						<p className="text-neutral-400 text-lg">Fee Tier</p>
+						<div className="flex flex-row justify-around gap-2">
+							{props.fees.map((fee) => (
+								<div key={fee} className="flex items-center">
+									<input
+										type="radio"
+										id={`${props.asset}-fee-${fee}`}
+										name={`${props.asset}-fee`}
+										value={fee}
+										checked={selectedFee === fee}
+										onChange={(e) => setSelectedFee(parseFloat(e.target.value))}
+										className="hidden"
+									/>
+									<label
+										htmlFor={`${props.asset}-fee-${fee}`}
+										className={`cursor-pointer glass-container-darker text-lg px-4 py-2 rounded-full ${
+											selectedFee === fee ? "box-container-solid" : ""
+										}`}
+									>
+										{fee}%
+									</label>
+								</div>
+							))}
+						</div>
 					</div>
 					<nav className="glass-container-darker w-fit px-6 py-2" style={{ borderRadius: "2.5rem" }}>
 						<div className="flex flex-row items-center justify-center gap-2 md:text-xl text-sm p-2">

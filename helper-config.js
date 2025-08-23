@@ -16,6 +16,7 @@ const networkConfig = {
 				apy: "12",
 				dec: "18",
 				tvl: "1000",
+				fees: [0.05, 0.3, 1],
 			},
 			{
 				name: "USDC",
@@ -24,6 +25,7 @@ const networkConfig = {
 				apy: "10",
 				dec: "6",
 				tvl: "1045474",
+				fees: [0.05, 0.3, 1],
 			},
 			{
 				name: "WBTC",
@@ -32,6 +34,7 @@ const networkConfig = {
 				apy: "6",
 				dec: "8",
 				tvl: "120",
+				fees: [0.05, 0.3, 1],
 			},
 		],
 		pool: {

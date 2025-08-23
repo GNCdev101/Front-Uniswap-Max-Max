@@ -16,6 +16,7 @@ export default function earnTokenPage({ params }: { params: { slug: string } }) 
 				apy={parseFloat(pool.apy)}
 				volume={parseFloat(pool.tvl)}
 				useRate={20}
+				fees={pool.fees}
 			/>
 		</main>
 	);

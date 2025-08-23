@@ -24,8 +24,8 @@ function OpenPostionForm() {
 	let marketAddress = networkConfig[chain.id]["addressMarket"] as addressT;
 	let positionsAddress = networkConfig[chain.id]["addressPositions"] as addressT;
 
-	const [addSend, setAddSend] = useState("");
-	const [addTokenToTrade, setAddTokenToTrade] = useState("");
+	const [addSend, setAddSend] = useState(networkConfig[chain.id].pools[0].token);
+	const [addTokenToTrade, setAddTokenToTrade] = useState(networkConfig[chain.id].pools[1].token);
 	const [isShort, setIsShort] = useState<boolean>(false);
 	const [amount, setAmount] = useState(0);
 	const [leverage, setleverage] = useState(1);
@@ -160,33 +160,39 @@ function OpenPostionForm() {
 					<article className="glass-container flex flex-col gap-6 rounded-3xl md:p-6 p-4">
 						<div className="flex flex-col gap-1">
 							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Token to send address ({nameTokenSend ? nameTokenSend : "-"})
+								Token to send ({nameTokenSend ? nameTokenSend : "-"})
 							</label>
-							<input
+							<select
 								id="token-to-send"
-								type="text"
-								maxLength={42}
-								minLength={42}
 								className="w-full glass-input glass-input-small"
-								inputMode="text"
 								style={{ lineHeight: "1.5rem" }}
 								onChange={(e) => setAddSend(e.target.value)}
-							/>
+								value={addSend}
+							>
+								{networkConfig[chain.id].pools.map((pool) => (
+									<option key={pool.token} value={pool.token}>
+										{pool.name}
+									</option>
+								))}
+							</select>
 						</div>
 						<div className="flex flex-col gap-1">
-							<label className="text-sm text-neutral-300" htmlFor="token-to-send">
-								Token to trade address ({nameTokenTrade ? nameTokenTrade : "-"})
+							<label className="text-sm text-neutral-300" htmlFor="token-to-trade">
+								Token to trade ({nameTokenTrade ? nameTokenTrade : "-"})
 							</label>
-							<input
+							<select
 								id="token-to-trade"
-								type="text"
-								maxLength={42}
-								minLength={42}
 								className="w-full glass-input glass-input-small"
-								inputMode="text"
 								style={{ lineHeight: "1.5rem" }}
 								onChange={(e) => setAddTokenToTrade(e.target.value)}
-							/>
+								value={addTokenToTrade}
+							>
+								{networkConfig[chain.id].pools.map((pool) => (
+									<option key={pool.token} value={pool.token}>
+										{pool.name}
+									</option>
+								))}
+							</select>
 						</div>
 					</article>
 					<article className="glass-container flex flex-col gap-4 rounded-3xl md:p-6 p-4">

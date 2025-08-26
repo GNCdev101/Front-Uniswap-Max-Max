@@ -5,22 +5,26 @@ import TradingViewWidget from "@/components/TradingViewWidget";
 import PositionCard from "@/components/PositionCard";
 import OpenPostionForm from "@/components/OpenPostionForm";
 import { useEffect, useState } from "react";
-import { marketABI } from "../../abi/market.abi.json";
+import marketData from "../../abi/market.abi.json";
 import { useAccount, usePrepareContractWrite, useContractRead, useNetwork, useContractWrite } from "wagmi";
 
 import { networkConfig } from "@/helper-config.js";
+
+const { marketABI } = marketData;
 
 type addressT = `0x${string}`;
 const mockId = [1, 2, 3]; // Beirao will change this to a list of pool ids
 
 export default function TradePage() {
 	const { isConnected, address } = useAccount();
+	const { chain } = useNetwork();
+	const chainId = (chain?.id && chain.id in networkConfig ? chain.id : 1) as keyof typeof networkConfig;
 
-	const marketAddress = networkConfig[1]["addressMarket"] as addressT;
+	const marketAddress = networkConfig[chainId]["addressMarket"] as addressT;
 
 	const [traderPositions, setTraderPositions] = useState<number[]>([]);
 
-	const { data: traderPositionsTemp } = useContractRead({
+	const { data: traderPositionsTemp, refetch: refetchTraderPositions } = useContractRead({
 		address: marketAddress,
 		abi: marketABI,
 		functionName: "getTraderPositions",
@@ -38,7 +42,7 @@ export default function TradePage() {
 			<section className="fit-content flex justify-center h-full">
 				<div className="md:mt-32 mt-24 md:grid md:grid-cols-[1fr,0.5fr] md:grid-rows-1 md:justify-between flex justify-center gap-8 w-full">
 					<TradingViewWidget />
-					<OpenPostionForm />
+					<OpenPostionForm onPositionOpened={refetchTraderPositions} />
 				</div>
 			</section>
 			<section className="fit-content flex justify-center h-full">

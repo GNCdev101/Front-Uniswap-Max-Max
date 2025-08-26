@@ -3,10 +3,14 @@
 import React from "react";
 import Button from "./Button";
 import { useAccount, usePrepareContractWrite, useContractRead, useNetwork, useContractWrite } from "wagmi";
-import { marketABI } from "@/abi/market.abi.json";
-import { liquidityPoolABI } from "@/abi/liquidityPool.abi.json";
-import { ERC20ABI } from "@/abi/ERC20.abi.json";
+import marketData from "@/abi/market.abi.json";
+import liquidityPoolData from "@/abi/liquidityPool.abi.json";
+import ERC20Data from "@/abi/ERC20.abi.json";
 import { useEffect, useState } from "react";
+
+const { marketABI } = marketData;
+const { liquidityPoolABI } = liquidityPoolData;
+const { ERC20ABI } = ERC20Data;
 import { networkConfig } from "@/helper-config.js";
 import Image from "next/image";
 
@@ -21,14 +25,17 @@ type addressT = `0x${string}`;
 
 function LiquidityCard(props: LiquidityCardProps) {
 	const { isConnected, address } = useAccount();
+	const { chain } = useNetwork();
+	const chainId = (chain?.id && chain.id in networkConfig ? chain.id : 1) as keyof typeof networkConfig;
 
 	const [balanceShare, setBalanceShare] = useState<string | unknown>("1");
 	const [balanceAsset, setBalanceAsset] = useState<string | unknown>("0");
 	const [amount, setAmount] = useState<number | undefined>(0);
-	const asset = props.asset as keyof (typeof networkConfig)[1]["pool"];
-	const dec = parseInt(networkConfig[1]["pool"][asset]["dec"] as string);
-	const addToken = networkConfig[1]["pool"][asset]["token"] as addressT;
-	const poolAddress = networkConfig[1]["pool"][asset]["address"] as addressT;
+	const poolConfig = networkConfig[chainId].pool;
+	const asset = props.asset as keyof typeof poolConfig;
+	const dec = parseInt(poolConfig[asset]["dec"] as string);
+	const addToken = poolConfig[asset]["token"] as addressT;
+	const poolAddress = poolConfig[asset]["address"] as addressT;
 
 	const { config: approveConf } = usePrepareContractWrite({
 		address: addToken,

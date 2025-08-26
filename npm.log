@@ -1,9 +1,0 @@
-
-> uniswap_max_front@0.1.0 dev
-> next dev
-
-- ready started server on 0.0.0.0:3000, url: http://localhost:3000
-[35m[1mAttention[22m[39m: Next.js now collects completely anonymous telemetry regarding usage.
-This information is used to shape Next.js' roadmap and prioritize features.
-You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
-[36mhttps://nextjs.org/telemetry[39m

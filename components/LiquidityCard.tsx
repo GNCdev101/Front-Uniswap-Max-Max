@@ -16,19 +16,26 @@ interface LiquidityCardProps {
 	apy: number;
 	volume: number;
 	useRate: number;
+	fees: number[];
 }
 type addressT = `0x${string}`;
 
 function LiquidityCard(props: LiquidityCardProps) {
 	const { isConnected, address } = useAccount();
+	const { chain } = useNetwork();
+
+	if (!chain || !networkConfig[chain.id]) {
+		return <div>Unsupported network</div>;
+	}
 
 	const [balanceShare, setBalanceShare] = useState<string | unknown>("1");
 	const [balanceAsset, setBalanceAsset] = useState<string | unknown>("0");
-	const [amount, setAmount] = useState<number | undefined>(0);
-	const asset = props.asset as keyof (typeof networkConfig)[1]["pool"];
-	const dec = parseInt(networkConfig[1]["pool"][asset]["dec"] as string);
-	const addToken = networkConfig[1]["pool"][asset]["token"] as addressT;
-	const poolAddress = networkConfig[1]["pool"][asset]["address"] as addressT;
+	const [amount, setAmount] = useState<bigint | undefined>();
+	const [selectedFee, setSelectedFee] = useState<number>(props.fees[0]);
+	const asset = props.asset as keyof (typeof networkConfig)[typeof chain.id]["pool"];
+	const dec = parseInt(networkConfig[chain.id]["pool"][asset]["dec"] as string);
+	const addToken = networkConfig[chain.id]["pool"][asset]["token"] as addressT;
+	const poolAddress = networkConfig[chain.id]["pool"][asset]["address"] as addressT;
 
 	const { config: approveConf } = usePrepareContractWrite({
 		address: addToken,
@@ -122,17 +129,49 @@ function LiquidityCard(props: LiquidityCardProps) {
 							pattern="\d*"
 							onChange={(event) => {
 								const inputValue = event.target.value;
-								const floatValue = parseFloat(inputValue);
-								const roundedValue = Math.round(floatValue * 10 ** dec);
-
-								if (!isNaN(roundedValue)) {
-									setAmount(roundedValue);
+								if (inputValue) {
+									const floatValue = parseFloat(inputValue);
+									const scaledValue = floatValue * 10 ** dec;
+									try {
+										setAmount(BigInt(Math.round(scaledValue)));
+									} catch (e) {
+										console.error(e);
+										setAmount(undefined);
+									}
+								} else {
+									setAmount(undefined);
 								}
 							}}
 						/>
 						<label htmlFor={`${props.asset}-input`} className="md:text-2xl text-lg text-neutral-400">
 							{props.asset}
 						</label>
+					</div>
+					<div className="flex flex-col gap-2">
+						<p className="text-neutral-400 text-lg">Fee Tier</p>
+						<div className="flex flex-row justify-around gap-2">
+							{props.fees.map((fee) => (
+								<div key={fee} className="flex items-center">
+									<input
+										type="radio"
+										id={`${props.asset}-fee-${fee}`}
+										name={`${props.asset}-fee`}
+										value={fee}
+										checked={selectedFee === fee}
+										onChange={(e) => setSelectedFee(parseFloat(e.target.value))}
+										className="hidden"
+									/>
+									<label
+										htmlFor={`${props.asset}-fee-${fee}`}
+										className={`cursor-pointer glass-container-darker text-lg px-4 py-2 rounded-full ${
+											selectedFee === fee ? "box-container-solid" : ""
+										}`}
+									>
+										{fee}%
+									</label>
+								</div>
+							))}
+						</div>
 					</div>
 					<nav className="glass-container-darker w-fit px-6 py-2" style={{ borderRadius: "2.5rem" }}>
 						<div className="flex flex-row items-center justify-center gap-2 md:text-xl text-sm p-2">
@@ -170,7 +209,7 @@ function LiquidityCard(props: LiquidityCardProps) {
 							</li>
 						</ul> */}
 							<div className="pr-5">
-								<Button type="button" size="md" style="solid" onClick={() => deposit?.()}>
+								<Button type="button" size="md" style="solid" onClick={() => deposit?.()} disabled={!deposit}>
 									<span>📥</span>
 									<span>Deposit</span>
 								</Button>

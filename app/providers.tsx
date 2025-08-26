@@ -8,23 +8,12 @@ import { mainnet, polygon, optimism, arbitrum, goerli } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
-// const { chains, publicClient, webSocketPublicClient } = configureChains(
-// 	[mainnet, polygon, optimism, arbitrum, ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [goerli] : [])],
-// 	[publicProvider()],
-// );
-
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-	[mainnet],
-	[
-		jsonRpcProvider({
-			rpc: (chain: Chain) => ({
-				http: `http://127.0.0.1:8545`,
-			}),
-		}),
-	],
+	[mainnet, polygon, optimism, arbitrum, ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [goerli] : [])],
+	[publicProvider()],
 );
 
-const projectId = "YOUR_PROJECT_ID";
+const projectId = "90fd7d34d14f7542a32dc09a98ce2e4a";
 
 const { wallets } = getDefaultWallets({
 	appName: "RainbowKit demo",
